@@ -1,0 +1,27 @@
+package ru.bellintegrator.practice.organization.dao;
+
+import ru.bellintegrator.practice.organization.model.Organization;
+import ru.bellintegrator.practice.organization.view.OrganizationViewLoadById;
+
+import java.util.List;
+
+
+public interface OrganizationDao {
+
+    Organization getOrganizationByName(String name, Long inn, boolean isActive);        //получить организацию по имени
+
+
+    Organization loadById(Long id);           //получить организацию по ID
+
+
+    void save(Organization organization);       //добавить организацию в список
+
+
+  /*  Organization loadByName(String name);       //получить организацию по имени*/
+
+
+    List<Organization> getAllOrganization();    //получить весь список организаций
+
+
+
+}

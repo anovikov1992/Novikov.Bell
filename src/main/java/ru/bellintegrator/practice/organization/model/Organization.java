@@ -1,0 +1,167 @@
+package ru.bellintegrator.practice.organization.model;
+
+
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
+
+/**
+ * User
+ */
+@Entity
+@Table(name = "organization")
+public class Organization {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "Id")
+    private Long id;
+
+    /**
+     * Служебное поле hibernate
+     */
+    @Version
+    private Integer version;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "full_Name")
+    private String fullName;
+
+    @Column(name = "inn")
+    private Long inn;
+
+    @Column(name = "kpp")
+    private Long kpp;
+
+    @Column(name = "urAddress")
+    private String urAddress;
+
+    @Column(name = "phone")
+    private Long phone;
+
+    @Column(name = "is_Active")
+    private boolean isActive;
+
+
+    /**
+     * Конструктор для hibernate
+     */
+    public Organization() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String Name) {
+        this.name = Name;
+    }
+
+    public String getFullName() { return fullName;}
+
+    public void setFullName(String fullName) {this.fullName = fullName;  }
+
+    public Long getInn() {
+        return inn;
+    }
+
+    public void setInn(Long inn) {
+        this.inn = inn;
+    }
+
+    public long getKpp() {
+        return kpp;
+    }
+
+    public void setKpp(Long kpp) {
+        this.kpp = kpp;
+    }
+
+    public String getUrAddress() {
+        return urAddress;
+    }
+
+    public void setUrAddress(String urAddress) {
+        this.urAddress = urAddress;
+    }
+
+    public long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Long phone) {
+        this.phone = phone;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Organization(Long id, Integer version, String name, String FullName, Long inn, Long kpp, String urAddress, Long phone, boolean isActive) {
+        this.id = id;
+        this.version = version;
+        this.name = name;
+        this.fullName = FullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.urAddress = urAddress;
+        this.phone = phone;
+        this.isActive = isActive;
+    }
+
+    public Organization(String name, String fullName, Long inn, Long kpp, String urAddress, Long phone, boolean isActive) {
+        this.name = name;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.urAddress = urAddress;
+        this.phone = phone;
+        this.isActive = isActive;
+    }
+
+    public Organization(String name, String fullName, Long inn, Long kpp, String urAddress, boolean isActive) {
+        this.name = name;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.urAddress = urAddress;
+        this.isActive = isActive;
+    }
+
+    public Organization(Long id) {
+        this.id = id;
+    }
+
+    public Organization(String name, Long inn, boolean isActive) {
+        this.name = name;
+        this.inn = inn;
+        this.isActive = isActive;
+    }
+}
