@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS office (
     name                VARCHAR(50) NOT NULL,
     Address             VARCHAR(50) NOT NULL,
     is_Active           BOOLEAN NOT NULL,
-    organization_id     INTEGER NOT NULL,
+    organization_id     INTEGER ,
     CONSTRAINT office_FKEY   FOREIGN KEY (organization_id) REFERENCES organization(id)
 );
 

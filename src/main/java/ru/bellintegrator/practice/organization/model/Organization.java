@@ -46,7 +46,7 @@ public class Organization {
     private Long phone;
 
     @Column(name = "is_Active")
-    private boolean isActive;
+    private Boolean isActive;
 
 
     /**
@@ -116,15 +116,15 @@ public class Organization {
         this.phone = phone;
     }
 
-    public boolean getIsActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         isActive = active;
     }
 
-    public Organization(Long id, Integer version, String name, String FullName, Long inn, Long kpp, String urAddress, Long phone, boolean isActive) {
+    public Organization(Long id, Integer version, String name, String FullName, Long inn, Long kpp, String urAddress, Long phone, Boolean isActive) {
         this.id = id;
         this.version = version;
         this.name = name;
@@ -136,7 +136,7 @@ public class Organization {
         this.isActive = isActive;
     }
 
-    public Organization(String name, String fullName, Long inn, Long kpp, String urAddress, Long phone, boolean isActive) {
+    public Organization(String name, String fullName, Long inn, Long kpp, String urAddress, Long phone, Boolean isActive) {
         this.name = name;
         this.fullName = fullName;
         this.inn = inn;
@@ -146,7 +146,7 @@ public class Organization {
         this.isActive = isActive;
     }
 
-    public Organization(String name, String fullName, Long inn, Long kpp, String urAddress, boolean isActive) {
+    public Organization(String name, String fullName, Long inn, Long kpp, String urAddress, Boolean isActive) {
         this.name = name;
         this.fullName = fullName;
         this.inn = inn;
@@ -159,7 +159,7 @@ public class Organization {
         this.id = id;
     }
 
-    public Organization(String name, Long inn, boolean isActive) {
+    public Organization(String name, Long inn, Boolean isActive) {
         this.name = name;
         this.inn = inn;
         this.isActive = isActive;

@@ -8,4 +8,9 @@ import java.util.List;
 public interface OfficeDao {
 
     List<Office> getAllOffice();
+
+
+    void setOrganizationNull(Long id);
+
+
 }

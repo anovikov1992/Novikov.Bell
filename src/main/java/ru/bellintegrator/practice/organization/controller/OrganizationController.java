@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.organization.model.Organization;
 import ru.bellintegrator.practice.organization.service.OrganizationService;
-import ru.bellintegrator.practice.organization.view.OrganizationView;
-import ru.bellintegrator.practice.organization.view.OrganizationViewList;
-import ru.bellintegrator.practice.organization.view.OrganizationViewLoadById;
-import ru.bellintegrator.practice.organization.view.OrganizationViewSave;
+import ru.bellintegrator.practice.organization.view.*;
 
 import java.util.List;
 
@@ -43,8 +40,9 @@ public class OrganizationController {
         return organizationService.loadById(id);
     }
 
-
-    @ApiOperation(value = "api/organization/save", nickname = "api/organization/save", httpMethod = "POST")     //добавить организацию
+                                                                                                                //добавить организацию
+    @ApiOperation(value = "api/organization/save", nickname = "api/organization/save",
+            httpMethod = "POST")
     @PostMapping("/api/organization/save")
     public void add( @RequestParam String name,
                      @RequestParam String fullName,
@@ -52,14 +50,15 @@ public class OrganizationController {
                      @RequestParam Long kpp,
                      @RequestParam String urAddress,
                      @RequestParam (value = "phone", required=false) Long phone,
-                     @RequestParam (value = "isActive", required = false) boolean isActive) {
+                     @RequestParam (value = "isActive", required = false) Boolean isActive) {
         organizationService.add(name, fullName, inn, kpp, urAddress, phone, isActive); }
 
 
     @ApiOperation(value = "update", nickname = "update", httpMethod = "POST")                                   //обновить данные организации
     @PostMapping("/api/organization/update")
     @ResponseStatus(value = HttpStatus.OK)
-    public void update(@RequestBody OrganizationView organization) throws Exception {organizationService.update(organization); }
+    public void update(@RequestBody OrganizationViewUpdate organization) throws Exception {
+        organizationService.update(organization); }
 
 
 
@@ -69,9 +68,7 @@ public class OrganizationController {
     public List<OrganizationView> getAllOrganization() { return organizationService.getAllOrganization(); }
 
 
-
-
-
-
-
+    @ApiOperation(value = "deleteOrganization", nickname = "deleteOrganization", httpMethod = "GET")                //удалить организацию по ID
+    @GetMapping("/api/organization/DELETE/{id}")
+    public void delete(@PathVariable Long id) { organizationService.delete(id); }
 }

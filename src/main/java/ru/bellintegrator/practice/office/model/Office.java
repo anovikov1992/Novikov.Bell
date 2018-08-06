@@ -26,7 +26,7 @@ public class Office {
     @Column(name = "is_Active")
     private boolean isActive;
 
-    @OneToOne(/*fetch = FetchType.LAZY,*/ cascade = CascadeType.ALL)
+    @OneToOne(/*fetch = FetchType.LAZY,*/optional = false/*, cascade = CascadeType.ALL*/)
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
@@ -87,5 +87,17 @@ public class Office {
         this.address = address;
         this.isActive = isActive;
         this.organization = organization;
+    }
+
+    @Override
+    public String toString() {
+        return "Office{" +
+                "id=" + id +
+                ", version=" + version +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", isActive=" + isActive +
+                ", organization=" + organization +
+                '}';
     }
 }

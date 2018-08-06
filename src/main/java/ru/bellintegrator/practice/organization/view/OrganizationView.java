@@ -15,7 +15,7 @@ public class OrganizationView {
 
     public Long inn;
 
-    public long kpp;
+    public Long kpp;
 
     public String urAddress;
 
