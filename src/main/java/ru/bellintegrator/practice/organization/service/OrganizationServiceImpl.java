@@ -136,7 +136,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
             org.setPhone(organization.phone);
             org.setActive(organization.isActive);
-        organizationDao.save(org);
     }
 
   /*  private void validate(OrganizationView organization) throws Exception {
