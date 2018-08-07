@@ -26,7 +26,7 @@ public class Office {
     @Column(name = "is_Active")
     private boolean isActive;
 
-    @OneToOne(/*fetch = FetchType.LAZY,*/optional = false/*, cascade = CascadeType.ALL*/)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false/*, cascade = CascadeType.ALL*/)
     @JoinColumn(name = "organization_id")
     private Organization organization;
 

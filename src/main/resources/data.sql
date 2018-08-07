@@ -13,6 +13,8 @@ INSERT INTO Office (id, version, name, Address, is_Active, organization_id) VALU
 
 INSERT INTO Office (id, version, name, Address, is_Active, organization_id) VALUES (2, 0, 'Office2', 'NN office', true, 2);
 
+INSERT INTO Office (id, version, name, Address, is_Active, organization_id) VALUES (3, 0, 'Office2', 'NN office', true, 2);
+
 --INSERT INTO Office (id, version, name, Address, is_Active, organization_id) VALUES (3, 0, 'Office3', 'NN office', true, 0);
 
 

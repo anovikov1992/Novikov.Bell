@@ -2,12 +2,10 @@ package ru.bellintegrator.practice.organization.model;
 
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Version;
+import ru.bellintegrator.practice.office.model.Office;
+
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * User
@@ -47,6 +45,9 @@ public class Organization {
 
     @Column(name = "is_Active")
     private Boolean isActive;
+
+    @OneToMany(mappedBy = "organization")
+    private Set<Office> offices;
 
 
     /**
@@ -122,6 +123,14 @@ public class Organization {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Set<Office> getOffices() {
+        return offices;
+    }
+
+    public void setOffices(Set<Office> offices) {
+        this.offices = offices;
     }
 
     public Organization(Long id, Integer version, String name, String FullName, Long inn, Long kpp, String urAddress, Long phone, Boolean isActive) {
