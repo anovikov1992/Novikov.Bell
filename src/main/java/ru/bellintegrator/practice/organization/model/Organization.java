@@ -173,4 +173,21 @@ public class Organization {
         this.inn = inn;
         this.isActive = isActive;
     }
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "id=" + id +
+                ", version=" + version +
+                ", name='" + name + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", inn=" + inn +
+                ", kpp=" + kpp +
+                ", urAddress='" + urAddress + '\'' +
+                ", phone=" + phone +
+                ", isActive=" + isActive +
+                ", offices=" + offices +
+                '}';
+    }
+
 }

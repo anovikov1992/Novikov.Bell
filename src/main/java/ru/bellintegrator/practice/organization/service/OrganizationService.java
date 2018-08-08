@@ -12,7 +12,7 @@ import java.util.List;
 public interface OrganizationService {
 
 
-    OrganizationViewList getOrganizationByName(String name, Long inn, Boolean isActive);    //получить организацию по имени
+    OrganizationViewList getOrganizationByName(String name, Long inn, Boolean isActive) throws Exception;    //получить организацию по имени
 
 
     OrganizationView loadById(Long id);                                                     //получить организацию по ID

@@ -54,9 +54,10 @@ public class User {
     @Column(name = "isIdentified")
     private boolean isIdentified;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "office_id")
     private Office office;
+
 
     public Long getId() {
         return id;

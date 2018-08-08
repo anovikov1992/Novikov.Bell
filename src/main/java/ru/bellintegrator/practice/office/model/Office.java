@@ -1,8 +1,10 @@
 package ru.bellintegrator.practice.office.model;
 
 import ru.bellintegrator.practice.organization.model.Organization;
+import ru.bellintegrator.practice.user.model.User;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -29,6 +31,9 @@ public class Office {
     @ManyToOne(fetch = FetchType.LAZY, optional = false/*, cascade = CascadeType.ALL*/)
     @JoinColumn(name = "organization_id")
     private Organization organization;
+
+    @OneToMany(mappedBy = "office")
+    private Set<User> users;
 
     public Long getId() {
         return id;
@@ -76,6 +81,14 @@ public class Office {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public Office() {}

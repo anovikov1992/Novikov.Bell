@@ -1,10 +1,10 @@
-INSERT INTO Organization (id, version, name, full_name,  inn, kpp, ur_Address, phone, is_Active) VALUES (0, 0, 'Test', 'OOO Test',  12345678, 87654321, 'NN', 1234568, true);
+INSERT INTO Organization (id, version, name, full_name,  inn, kpp, ur_Address, phone, is_Active) VALUES (0, 0, 'Test', 'OOO Test',  1234567890, 87654321, 'NN', 1234568, true);
 
-INSERT INTO Organization (id, version, name, full_name, inn, kpp, ur_Address, phone, is_Active) VALUES (1, 0, 'Test1', 'OOO Test1',  123456781, 876543211, 'NN1', 12345681, true);
+INSERT INTO Organization (id, version, name, full_name, inn, kpp, ur_Address, phone, is_Active) VALUES (1, 0, 'Test1', 'OOO Test1',  1234567811, 876543211, 'NN1', 12345681, true);
 
-INSERT INTO Organization (id, version, name, full_name,  inn, kpp, ur_Address, phone, is_Active) VALUES (2, 0, 'Test2', 'OOO Test2',  123456782, 876543212, 'NN2', 12345682, true);
+INSERT INTO Organization (id, version, name, full_name,  inn, kpp, ur_Address, phone, is_Active) VALUES (2, 0, 'Test2', 'OOO Test2',  1234567822, 876543212, 'NN2', 12345682, true);
 
-INSERT INTO Organization (id, version, name, full_name,  inn, kpp, ur_Address, phone, is_Active) VALUES (3, 0, 'Test3', 'OOO Test3',  123, 12333, 'NN2', 33321, true);
+INSERT INTO Organization (id, version, name, full_name,  inn, kpp, ur_Address, phone, is_Active) VALUES (3, 0, 'Test3', 'OOO Test3',  1234569870, 12333, 'NN2', 33321, true);
 
 
 INSERT INTO Office (id, version, name, Address, is_Active, organization_id) VALUES (0, 0, 'Office0', 'NN office', true, null);

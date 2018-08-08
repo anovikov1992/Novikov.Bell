@@ -4,8 +4,14 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.bellintegrator.practice.office.dao.OfficeDao;
-import ru.bellintegrator.practice.office.model.Office;
+import ru.bellintegrator.practice.organization.MyException.InnLengthException;
+import ru.bellintegrator.practice.organization.MyException.OrgIdException;
+import ru.bellintegrator.practice.organization.MyException.OrgNameException;
+import ru.bellintegrator.practice.organization.MyException.PhoneFormatException;
 import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.organization.model.Organization;
 import ru.bellintegrator.practice.organization.view.*;
@@ -19,7 +25,8 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-public class OrganizationServiceImpl implements OrganizationService {
+@RestControllerAdvice
+public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler implements OrganizationService {
 
 
     private final OrganizationDao organizationDao;
@@ -41,31 +48,41 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override                                                                       //получить организацию по имени
     @Transactional
-    public OrganizationViewList getOrganizationByName(String name, Long inn, Boolean isActive) {
+    public OrganizationViewList getOrganizationByName(String name, Long inn, Boolean isActive) throws Exception {
+        if (inn != null) {
+            validateNumberLength(inn);
+        }
         OrganizationViewList view = new OrganizationViewList();
-        Organization organizationByName = organizationDao.getOrganizationByName(name, inn, isActive);
-        view.id = organizationByName.getId();
-        view.name = organizationByName.getName();
-        view.isActive = organizationByName.getIsActive();
+        try {
+            Organization organizationByName = organizationDao.getOrganizationByName(name, inn, isActive);
+            view.id = organizationByName.getId();
+            view.name = organizationByName.getName();
+            view.isActive = organizationByName.getIsActive();
+        } catch (Exception e) {
+            throw new OrgNameException();
+        }
         return view;
     }
 
 
+
+
     @Override
-    public OrganizationView loadById(Long id) {
-
+    public OrganizationView loadById(Long id) throws RuntimeException {
         OrganizationView organizationView = new OrganizationView();
-        Organization organization = organizationDao.loadById(id);
-
-        organizationView.id = organization.getId();
-        organizationView.name = organization.getName();
-        organizationView.fullName = organization.getFullName();
-        organizationView.inn = organization.getInn();
-        organizationView.kpp = organization.getKpp();
-        organizationView.urAddress = organization.getUrAddress();
-        organizationView.phone = organization.getPhone();
-        organizationView.isActive = organization.getIsActive();
-
+        try {
+            Organization organization = organizationDao.loadById(id);
+            organizationView.id = organization.getId();
+            organizationView.name = organization.getName();
+            organizationView.fullName = organization.getFullName();
+            organizationView.inn = organization.getInn();
+            organizationView.kpp = organization.getKpp();
+            organizationView.urAddress = organization.getUrAddress();
+            organizationView.phone = organization.getPhone();
+            organizationView.isActive = organization.getIsActive();
+        } catch (Exception e) {
+            throw new OrgIdException();
+        }
         return organizationView;
     }
 
@@ -116,11 +133,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override                                                                       //обновить данные организации
     public void update(OrganizationViewUpdate organization) throws Exception {
-       // validate(organization);
+
         Organization org = organizationDao.loadById(organization.id);
-        if (org == null) {
-            throw new NotFoundException("organization not found");
-        }
         org.setName(organization.name);
         org.setFullName(organization.fullName);
         org.setInn(organization.inn);
@@ -134,14 +148,27 @@ public class OrganizationServiceImpl implements OrganizationService {
         } else if (organization.isActive == null) {
             organization.isActive = org.getIsActive();
         }
-            org.setPhone(organization.phone);
-            org.setActive(organization.isActive);
+        org.setPhone(organization.phone);
+        org.setActive(organization.isActive);
     }
 
-  /*  private void validate(OrganizationView organization) throws Exception {
+    private void validateNumberLength(Long a) throws Exception {
+        int count = 1;
+        Long b = a / 10;
+        while (b >= 1){
+            count++;
+            b /= 10;
+        }
+        if (count != 10) {
+            throw new InnLengthException();
+        }
+    }
+
+    private void validate(OrganizationViewUpdate organization) {
         if (organization.id ==  null || organization.name == null){
-            throw new Exception("field is null");
-        }*/
+            throw new OrgIdException();
+        }
+    }
 
     @Override
     public void delete(Long id) {
