@@ -11,7 +11,9 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,30 +41,36 @@ public class OrganizationDaoImpl implements OrganizationDao {
 
     @Override                                                                       //получить организацию по имени
     public Organization getOrganizationByName(String name, Long inn, Boolean isActive) {
-        Organization result1 = new Organization(name, inn, isActive);
-        if (result1.getInn() == null && result1.getIsActive() ){
-            Query query = em.createQuery("SELECT o FROM Organization o WHERE o.name = :name AND o.isActive = :isActive");
-            query.setParameter("name", name);
-            query.setParameter("isActive", isActive);  /*  o.inn = :inn o.isActive = :isActive*/
-            result1 = (Organization)query.getSingleResult();
-        }    else if (result1.getInn() == null ){
-            Query query = em.createQuery("SELECT o FROM Organization o WHERE o.name = :name");
-            query.setParameter("name", name);
-            result1 = (Organization)query.getSingleResult();
-        }
-        if (inn != null && isActive){
-            Query query = em.createQuery("SELECT o FROM Organization o WHERE o.name = :name AND o.inn = :inn AND o.isActive = :isActive ");
-            query.setParameter("name", name);
-            query.setParameter("inn", inn);
-            query.setParameter("isActive", isActive);
-            result1 = (Organization)query.getSingleResult();
-        }    else if (inn != null){
-        Query query = em.createQuery("SELECT o FROM Organization o WHERE o.name = :name AND o.inn = :inn");
-        query.setParameter("name", name);
-        query.setParameter("inn", inn);
-        result1 = (Organization)query.getSingleResult();
+        return loadByCriteria(name, inn, isActive);
     }
-        return result1;
+
+    @Override
+    public Organization loadByCriteria(String name, Long inn, Boolean isActive) {
+        CriteriaQuery<Organization> criteria = buildCriteria(name, inn, isActive);
+        TypedQuery<Organization> query = em.createQuery(criteria);
+        return query.getSingleResult();
+    }
+
+    private CriteriaQuery<Organization> buildCriteria(String name, Long inn, Boolean isActive) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Organization> cq = builder.createQuery(Organization.class);
+        CriteriaBuilder qb = em.getCriteriaBuilder();
+
+        Root<Organization> organizationRoot = cq.from(Organization.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(qb.equal(organizationRoot.get("name"), name));
+        if (inn != null) {
+            predicates.add(qb.equal(organizationRoot.get("inn"), inn));
+        }
+
+        if (isActive != null) {
+            predicates.add(qb.equal(organizationRoot.get("isActive"), isActive));
+        }
+        cq.select(organizationRoot).where(predicates.toArray(new Predicate[]{}));
+
+        return cq;
     }
 
 
@@ -103,5 +111,6 @@ public class OrganizationDaoImpl implements OrganizationDao {
         query.setParameter("id", id);
         Organization orgRemove = (Organization)query.getSingleResult();
         em.remove(orgRemove);
+
     }
 }

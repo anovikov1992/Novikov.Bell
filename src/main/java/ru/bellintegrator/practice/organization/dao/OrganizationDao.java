@@ -9,9 +9,10 @@ import java.util.List;
 public interface OrganizationDao {
 
     Organization getOrganizationByName(String name, Long inn, Boolean isActive);        //получить организацию по имени
-
+    Organization loadByCriteria(String name, Long inn, Boolean isActive);
 
     Organization loadById(Long id);           //получить организацию по ID
+
     Organization loadByIdCriteria(Long id);           //получить организацию по ID (с использованием criteria)
 
 

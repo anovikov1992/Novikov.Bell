@@ -11,25 +11,35 @@ import java.util.List;
  */
 public interface OrganizationService {
 
+    /*
+    получить организацию по имени
+    */
+    OrganizationViewList getOrganizationByName(String name, Long inn, Boolean isActive) throws Exception;
 
-    OrganizationViewList getOrganizationByName(String name, Long inn, Boolean isActive) throws Exception;    //получить организацию по имени
+    /*
+    получить организацию по ID
+    */
+    OrganizationView loadById(Long id);
 
+    /*
+    обновить данные организации
+    */
+    void update(OrganizationViewUpdate organization) throws Exception;
 
-    OrganizationView loadById(Long id);                                                     //получить организацию по ID
-
-                                                                                            //получить организацию по ID
+    /*
+    добавить организацию
+    */
     void add(String name, String fullName, Long inn, Long kpp,
-             String urAddress, Long phone, Boolean isActive);
+             String urAddress, Long phone, Boolean isActive) throws Exception;
 
+    /*
+    получить весь список организаций
+    */
+    List<OrganizationView> getAllOrganization();
 
-    void update(OrganizationViewUpdate organization) throws Exception;                      //обновить данные организации
-
-
-
-
-    List<OrganizationView> getAllOrganization();                                            //получить весь список организаций
-
-
-    void delete (Long id);                                                                  //удалить организацию по ID
+    /*
+    удалить организацию по ID
+    */
+    void delete (Long id);
 
 }

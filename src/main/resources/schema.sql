@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS organization (
     kpp         INTEGER NOT NULL,
     ur_Address  VARCHAR(50) NOT NULL,
     phone       INTEGER ,
-    is_Active   BOOLEAN NOT NULL
+    is_Active   BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS office (

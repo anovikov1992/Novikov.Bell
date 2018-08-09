@@ -1,9 +1,10 @@
 package ru.bellintegrator.practice.organization.view;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrganizationView {
 
  //   @ApiModelProperty(hidden = true)
@@ -21,7 +22,7 @@ public class OrganizationView {
 
     public Long phone;
 
-    public boolean isActive;
+    public Boolean isActive;
 
     @Override
     public String toString() {

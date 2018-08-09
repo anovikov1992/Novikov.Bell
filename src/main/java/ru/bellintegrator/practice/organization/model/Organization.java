@@ -46,7 +46,7 @@ public class Organization {
     @Column(name = "is_Active")
     private Boolean isActive;
 
-    @OneToMany(mappedBy = "organization")
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Office> offices;
 
 
@@ -109,7 +109,7 @@ public class Organization {
         this.urAddress = urAddress;
     }
 
-    public long getPhone() {
+    public Long getPhone() {
         return phone;
     }
 
@@ -172,6 +172,16 @@ public class Organization {
         this.name = name;
         this.inn = inn;
         this.isActive = isActive;
+    }
+
+    public Organization(Long id, Integer version, String name, String fullName, Long inn, Long kpp, String urAddress) {
+        this.id = id;
+        this.version = version;
+        this.name = name;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.urAddress = urAddress;
     }
 
     @Override
