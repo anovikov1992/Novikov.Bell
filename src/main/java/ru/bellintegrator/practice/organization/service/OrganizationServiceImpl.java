@@ -24,9 +24,12 @@ import java.util.stream.Collectors;
 public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler implements OrganizationService {
 
 
-    private final OrganizationDao organizationDao;
+    private  OrganizationDao organizationDao;
 
-    private final OfficeDao officeDao;
+    private  OfficeDao officeDao;
+
+    public OrganizationServiceImpl() {
+    }
 
     @Autowired
     public OrganizationServiceImpl(OrganizationDao organizationDao, OfficeDao officeDao) {
