@@ -15,16 +15,16 @@ public class OrganizationViewUpdate {
     public String fullName;
 
    @ApiModelProperty(required = true)
-    public Long inn;
+    public String inn;
 
    @ApiModelProperty(required = true)
-    public Long kpp;
+    public String kpp;
 
    @ApiModelProperty(required = true)
     public String urAddress;
 
 
-    public Long phone;
+    public String phone;
 
     public Boolean isActive;
 

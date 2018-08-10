@@ -64,10 +64,10 @@ public class OrganizationController {
     @PostMapping("/api/organization/save")
     public ResponseView add( @RequestParam String name,
                      @RequestParam String fullName,
-                     @RequestParam Long inn,
-                     @RequestParam Long kpp,
+                     @RequestParam String inn,
+                     @RequestParam String kpp,
                      @RequestParam String urAddress,
-                     @RequestParam (value = "phone", required=false) Long phone,
+                     @RequestParam (value = "phone", required=false) String phone,
                      @RequestParam Boolean isActive) throws Exception {
         organizationService.add(name, fullName, inn, kpp, urAddress, phone, isActive);
         return new ResponseView("success");/*ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");*/

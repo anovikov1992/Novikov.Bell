@@ -3,7 +3,6 @@ package ru.bellintegrator.practice.organization.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.bellintegrator.practice.office.dao.OfficeDao;
 import ru.bellintegrator.practice.organization.MyException.*;
@@ -44,7 +43,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
     @Override
     @Transactional
     public OrganizationViewList getOrganizationByName(String name, Long inn, Boolean isActive) throws Exception {
-        validate(inn);
+       // validate(inn);
         OrganizationViewList view = new OrganizationViewList();
         try {
             Organization organizationByName = organizationDao.getOrganizationByName(name, inn, isActive);
@@ -95,24 +94,23 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
         try {
             org = organizationDao.loadById(organization.id);
         } catch (Exception e) {
-            throw new OrgOutException("Организации с таким ID нет в базе данных");
         }
         org.setName(organization.name);
         org.setFullName(organization.fullName);
         validate(organization.inn);
-        org.setInn(organization.inn);
+        org.setInn(validate(organization.inn));
         validateKppNumberLength(organization.kpp);
-        org.setKpp(organization.kpp);
+        org.setKpp(validateKppNumberLength(organization.kpp));
         org.setUrAddress(organization.urAddress);
         if (organization.phone == null && organization.isActive == null){
-            organization.phone = org.getPhone();
+            organization.phone = phoneToString(org.getPhone());
             organization.isActive = org.getIsActive();
         } else if (organization.phone == null) {
-            organization.phone = org.getPhone();
+            organization.phone = phoneToString(org.getPhone());
         } else if (organization.isActive == null) {
             organization.isActive = org.getIsActive();
         }
-        org.setPhone(organization.phone);
+        org.setPhone(phoneToLong(organization.phone));
         org.setActive(organization.isActive);
     }
 
@@ -121,15 +119,15 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
     */
 
     @Override
-    public void add(String name, String fullName, Long inn, Long kpp, String urAddress, Long phone, Boolean isActive) throws Exception {
+    public void add(String name, String fullName, String inn, String kpp, String urAddress, String phone, Boolean isActive) throws Exception {
         Organization organization = null;
         validate(inn);
         validateKppNumberLength(kpp);
         if (phone == null) {
-            organization = new Organization(name, fullName, inn, kpp, urAddress, isActive);
+            organization = new Organization(name, fullName, validate(inn), validateKppNumberLength(kpp), urAddress, isActive);
         }
         else {
-            organization = new Organization(name, fullName, inn, kpp, urAddress, phone, isActive);
+            organization = new Organization(name, fullName, validate(inn), validateKppNumberLength(kpp), urAddress, phoneToLong(phone), isActive);
         }
         organizationDao.save(organization);
     }
@@ -176,10 +174,16 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
 
 
 
-    private void validate(Long a) throws Exception {
-        if (a != null) {
+    private Long validate(String a) throws Exception {
+        Long aLong = null;
+        try {
+            aLong = Long.parseLong(a);
+        } catch (Exception e) {
+            throw new OrganisationValidationException("ИНН должен состоять из цифр");
+        }
+        if (aLong != null) {
             int count = 1;
-            Long b = a / 10;
+            Long b = aLong / 10;
             while (b >= 1){
                 count++;
                 b /= 10;
@@ -188,11 +192,18 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
                 throw new OrganisationValidationException("ИНН должен состоять из 10 цифр");
             }
         }
+        return aLong;
     }
 
-    private void validateKppNumberLength(Long a) throws Exception {
+    private Long validateKppNumberLength(String a) throws Exception {
+        Long aLong = null;
+        try {
+            aLong = Long.parseLong(a);
+        } catch (Exception e) {
+            throw new OrganisationValidationException("КПП должен состоять из цифр");
+        }
         int count = 1;
-        Long b = a / 10;
+        Long b = aLong / 10;
         while (b >= 1){
             count++;
             b /= 10;
@@ -200,8 +211,20 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
         if (count != 9) {
             throw new OrganisationValidationException("КПП должен состоять из 9 цифр");
         }
+        return aLong;
     }
 
+    private Long phoneToLong (String phone) {
+        try {
+            Long a = Long.parseLong(phone);
+            return a;
+        } catch (Exception e) {
+            throw new OrganisationValidationException("Телефон должен состоять из цифр");
+        }
+    }
 
-
+    private String phoneToString (Long phone) {
+        String a = phone.toString();
+        return a;
+    }
 }
