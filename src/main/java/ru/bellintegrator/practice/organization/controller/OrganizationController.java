@@ -62,14 +62,8 @@ public class OrganizationController {
     @ApiOperation(value = "api/organization/save", nickname = "api/organization/save",
             httpMethod = "POST")
     @PostMapping("/api/organization/save")
-    public ResponseView add( @RequestParam String name,
-                     @RequestParam String fullName,
-                     @RequestParam String inn,
-                     @RequestParam String kpp,
-                     @RequestParam String urAddress,
-                     @RequestParam (value = "phone", required=false) String phone,
-                     @RequestParam Boolean isActive) throws Exception {
-        organizationService.add(name, fullName, inn, kpp, urAddress, phone, isActive);
+    public ResponseView add( @RequestBody OrganizationViewSave organization) throws Exception {
+        organizationService.add(organization);
         return new ResponseView("success");/*ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");*/
     }
 

@@ -29,8 +29,7 @@ public interface OrganizationService {
     /*
     добавить организацию
     */
-    void add(String name, String fullName, String inn, String kpp,
-             String urAddress, String phone, Boolean isActive) throws Exception;
+    void add(OrganizationViewSave organization) throws Exception;
 
     /*
     получить весь список организаций

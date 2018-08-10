@@ -10,13 +10,13 @@ public class OrganizationViewSave {
 
     public String fullName;
 
-    public Long inn;
+    public String inn;
 
-    public long kpp;
+    public String kpp;
 
     public String urAddress;
 
-    public Long phone;
+    public String phone;
 
     public boolean isActive;
 

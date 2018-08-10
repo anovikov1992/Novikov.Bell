@@ -119,17 +119,20 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
     */
 
     @Override
-    public void add(String name, String fullName, String inn, String kpp, String urAddress, String phone, Boolean isActive) throws Exception {
-        Organization organization = null;
-        validate(inn);
-        validateKppNumberLength(kpp);
-        if (phone == null) {
-            organization = new Organization(name, fullName, validate(inn), validateKppNumberLength(kpp), urAddress, isActive);
+    public void add(OrganizationViewSave organization) throws Exception {
+        Organization ogr;
+        validate(organization.inn);
+        validateKppNumberLength(organization.kpp);
+        if (organization.phone == null) {
+            ogr = new Organization  (organization.name, organization.fullName, validate(organization.inn),
+                                    validateKppNumberLength(organization.kpp),  organization.urAddress,  organization.isActive);
         }
         else {
-            organization = new Organization(name, fullName, validate(inn), validateKppNumberLength(kpp), urAddress, phoneToLong(phone), isActive);
+            ogr = new Organization (organization.name, organization.fullName, validate(organization.inn),
+                                    validateKppNumberLength(organization.kpp),  organization.urAddress,
+                                    phoneToLong(organization.phone), organization.isActive);
         }
-        organizationDao.save(organization);
+        organizationDao.save(ogr);
     }
 
     /*
