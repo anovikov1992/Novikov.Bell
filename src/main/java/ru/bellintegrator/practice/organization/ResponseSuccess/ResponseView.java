@@ -11,6 +11,7 @@ public class ResponseView {
     public ResponseView() {
     }
 
-
-
+    public ResponseView(String result) {
+        this.result = result;
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.bellintegrator.practice.organization.ResponseSuccess.ResponseView;
 import ru.bellintegrator.practice.organization.service.OrganizationService;
 import ru.bellintegrator.practice.organization.view.*;
 
@@ -50,10 +51,9 @@ public class OrganizationController {
     @ApiOperation(value = "update", nickname = "update", httpMethod = "POST")
     @PostMapping("/api/organization/update")
     @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
-    public ResponseEntity<String> update(@RequestBody OrganizationViewUpdate organization) throws Exception {
+    public ResponseView update(@RequestBody OrganizationViewUpdate organization) throws Exception {
             organizationService.update(organization);
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");
+        return new ResponseView("success");/*ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");*/
     }
 
     /*
@@ -62,8 +62,7 @@ public class OrganizationController {
     @ApiOperation(value = "api/organization/save", nickname = "api/organization/save",
             httpMethod = "POST")
     @PostMapping("/api/organization/save")
-    @ResponseBody
-    public ResponseEntity<String> add( @RequestParam String name,
+    public ResponseView add( @RequestParam String name,
                      @RequestParam String fullName,
                      @RequestParam Long inn,
                      @RequestParam Long kpp,
@@ -71,7 +70,7 @@ public class OrganizationController {
                      @RequestParam (value = "phone", required=false) Long phone,
                      @RequestParam Boolean isActive) throws Exception {
         organizationService.add(name, fullName, inn, kpp, urAddress, phone, isActive);
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");
+        return new ResponseView("success");/*ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");*/
     }
 
 
@@ -87,9 +86,8 @@ public class OrganizationController {
     */
     @ApiOperation(value = "deleteOrganization", nickname = "deleteOrganization", httpMethod = "POST")
     @PostMapping("/api/organization/DELETE/{id}")
-    @ResponseBody
-    public ResponseEntity<String> delete(@PathVariable Long id) throws Exception {
+    public ResponseView/*ResponseEntity<String>*/ delete(@PathVariable Long id) throws Exception {
         organizationService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");
+        return new ResponseView("success");/*ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");*/
     }
 }

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-@RestControllerAdvice
+//@RestControllerAdvice
 public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler implements OrganizationService {
 
 
@@ -52,14 +52,12 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
             view.name = organizationByName.getName();
             view.isActive = organizationByName.getIsActive();
         } catch (Exception e) {
-            OrgOutException orgOutException = new OrgOutException();
             if ((inn != null) || (isActive != null)) {
-                orgOutException.setMessage("Организации с такой комбинацией параметров нет");
+                throw  new OrgOutException("Организации с такой комбинацией параметров нет");
             }
             else {
-                orgOutException.setMessage("Организации с таким именем нет");
+                throw  new OrgOutException("Организации с таким именем нет");
             }
-            throw orgOutException;
         }
         return view;
     }
@@ -69,7 +67,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
     */
 
     @Override
-    public OrganizationView loadById(Long id) throws RuntimeException {
+    public OrganizationView loadById(Long id) {
         OrganizationView organizationView = new OrganizationView();
         try {
             Organization organization = organizationDao.loadById(id);
