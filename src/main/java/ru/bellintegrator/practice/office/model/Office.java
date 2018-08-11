@@ -25,6 +25,9 @@ public class Office {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "phone_office")
+    private String phoneOffice;
+
     @Column(name = "is_Active")
     private boolean isActive;
 
@@ -67,6 +70,14 @@ public class Office {
         this.address = address;
     }
 
+    public String getPhoneOffice() {
+        return phoneOffice;
+    }
+
+    public void setPhoneOffice(String phoneOffice) {
+        this.phoneOffice = phoneOffice;
+    }
+
     public boolean getIsActive() {
         return isActive;
     }
@@ -92,6 +103,21 @@ public class Office {
     }
 
     public Office() {}
+
+    public Office(String name, String address, String phoneOffice, boolean isActive) {
+        this.name = name;
+        this.address = address;
+        this.phoneOffice = phoneOffice;
+        this.isActive = isActive;
+    }
+
+    public Office(String name) {
+        this.name = name;
+    }
+
+    public Office(boolean isActive) {
+        this.isActive = isActive;
+    }
 
     public Office(Long id, Integer version, String name, String address, boolean isActive, Organization organization) {
         this.id = id;

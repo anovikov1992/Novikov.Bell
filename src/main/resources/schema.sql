@@ -13,9 +13,10 @@ CREATE TABLE IF NOT EXISTS organization (
 CREATE TABLE IF NOT EXISTS office (
     id                  INTEGER  PRIMARY KEY AUTO_INCREMENT,
     version             INTEGER NOT NULL,
-    name                VARCHAR(50) NOT NULL,
-    Address             VARCHAR(50) NOT NULL,
-    is_Active           BOOLEAN NOT NULL,
+    name                VARCHAR(50),
+    Address             VARCHAR(50),
+    phone_office        VARCHAR(50),
+    is_Active           BOOLEAN,
     organization_id     INTEGER ,
     CONSTRAINT office_FKEY   FOREIGN KEY (organization_id) REFERENCES organization(id)
 );

@@ -1,13 +1,13 @@
 package ru.bellintegrator.practice.office.controller;
 
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.bellintegrator.practice.docs.service.DocService;
-import ru.bellintegrator.practice.docs.view.DocView;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.office.service.OfficeService;
-import ru.bellintegrator.practice.office.view.OfficeView;
+import ru.bellintegrator.practice.office.view.OfficeViewLoadById;
+import ru.bellintegrator.practice.office.view.OfficeViewList;
+import ru.bellintegrator.practice.office.view.OfficeViewSave;
+import ru.bellintegrator.practice.organization.ResponseSuccess.ResponseView;
 
 import java.util.List;
 
@@ -23,9 +23,55 @@ public class OfficeController {
         this.officeService = officeService;
     }
 
+    /*
+    получить офис по ID организации
+    */
+
+    @ApiOperation(value = "/api/office/list", nickname = "получить офис по ID организации", httpMethod = "GET")
+    @GetMapping("/api/office/list")
+    public OfficeViewList getOfficeByOrgId(@RequestParam Long orgId,
+                                           @RequestParam (value = "inn", required=false) String name,
+                                  //         @RequestParam (value = "inn", required=false) String phone,
+                                           @RequestParam (value = "isActive", required=false) Boolean isActive) throws Exception {
+        return officeService.getOfficeByOrgId(orgId, name,/* phone,*/ isActive); }
+
+    /*
+    получить офис по ID
+    */
+    @ApiOperation(value = "api/office/{id}", nickname = "получить офис по ID", httpMethod = "GET")
+    @GetMapping("/api/office/{id}")
+    public OfficeViewLoadById loadById (@PathVariable Long id) throws Exception {
+        return officeService.loadById(id);
+    }
+
+    /*
+    обновить данные офисa
+    */
+    @ApiOperation(value = "update", nickname = "update", httpMethod = "POST")
+    @PostMapping("/api/office/update")
+    @ResponseStatus(value = HttpStatus.OK)
+    public ResponseView update(@RequestBody OfficeViewLoadById office) throws Exception {
+        officeService.update(office);
+        return new ResponseView("success");
+    }
+
+    /*
+    добавить офис
+    */
+    @ApiOperation(value = "api/organization/save", nickname = "api/organization/save",
+            httpMethod = "POST")
+    @PostMapping("/api/office/save")
+    public ResponseView add( @RequestBody OfficeViewSave officeViewSave) throws Exception {
+        officeService.add(officeViewSave);
+        return new ResponseView("success");/*ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");*/
+    }
+
+    /*
+    получить весь список офисов
+    */
     @ApiOperation(value = "getAllOffice", nickname = "getAllOffice", httpMethod = "GET")
     @GetMapping("/api/office")
-    public List<OfficeView> getAllOffice() {
+    public List<OfficeViewLoadById> getAllOffice() {
         return officeService.getAllOffice();
     }
 }

@@ -7,27 +7,31 @@ import ru.bellintegrator.practice.organization.model.Organization;
 import javax.persistence.Column;
 import javax.persistence.Version;
 
-public class OfficeView {
+public class OfficeViewLoadById {
 
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(required = true)
     public Long id;
 
+    @ApiModelProperty(required = true)
     public String name;
 
+    @ApiModelProperty(required = true)
     public String address;
 
-    public boolean isActive;
+    public String phoneOffice;
 
-    public Organization organization;
+    @ApiModelProperty(required = true)
+    public Boolean isActive;
+
 
     @Override
     public String toString() {
-        return "OfficeView{" +
+        return "OfficeViewLoadById{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", urAddress='" + address + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneOffice='" + phoneOffice + '\'' +
                 ", isActive=" + isActive +
-                ", organization=" + organization +
                 '}';
     }
 }

@@ -169,7 +169,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
 
     @Override
     public void delete(Long id) {
-        officeDao.setOrganizationNull(id);
+        officeDao.setOrganizationRelationshipNull(id);
         organizationDao.delete(id);
     }
 

@@ -9,7 +9,7 @@ INSERT INTO Organization (id, version, name, full_name,  inn, kpp, ur_Address, p
 INSERT INTO Organization (id, version, name, full_name,  inn, kpp, ur_Address, phone, is_Active) VALUES (4, 0, 'Test4', 'OOO Test4',  121234870, 12333, 'NN4', null, true);
 
 
-INSERT INTO Office (id, version, name, Address, is_Active, organization_id) VALUES (0, 0, 'Office0', 'NN office', true, null);
+INSERT INTO Office (id, version, name, Address, phone_office, is_Active, organization_id) VALUES (0, 0, 'Office0', 'NN office', '79206542222' , true, null);
 
 INSERT INTO Office (id, version, name, Address, is_Active, organization_id) VALUES (1, 0, 'Office1', 'NN office', true, 1);
 
