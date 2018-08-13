@@ -50,7 +50,8 @@ public class User {
     @Column(name = "doc_number")
     private Long docNumber;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "country_id")
     private Country country;
 
     @Column(name = "isIdentified")

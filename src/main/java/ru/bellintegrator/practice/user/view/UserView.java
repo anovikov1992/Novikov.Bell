@@ -30,7 +30,7 @@ public class UserView {
 
     public Date docDate;
 
-  //  public Country country;
+    public Country country;
 
     public Boolean isIdentified;
 
@@ -48,7 +48,7 @@ public class UserView {
                 ", phoneUser=" + phoneUser +
                 ", doc=" + doc +
                 ", docDate=" + docDate +
-            //    ", country=" + country +
+                ", country=" + country +
                 ", isIdentified=" + isIdentified +
                // ", office=" + office +
                 '}';

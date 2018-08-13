@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.organization.ResponseSuccess.ResponseView;
 import ru.bellintegrator.practice.user.model.User;
 import ru.bellintegrator.practice.user.service.UserService;
-import ru.bellintegrator.practice.user.view.UserView;
-import ru.bellintegrator.practice.user.view.UserViewLoadById;
-import ru.bellintegrator.practice.user.view.UserViewSave;
-import ru.bellintegrator.practice.user.view.UserViewUpdate;
+import ru.bellintegrator.practice.user.view.*;
 
 import java.util.List;
 
@@ -26,6 +23,30 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
+    /*
+    получить пользователя по ID офиса
+
+
+    @ApiOperation(value = "/api/office/list", nickname = "/api/office/list", httpMethod = "GET")
+    @GetMapping("/api/user/list")
+    public List<UserViewByOfficeIdResponse> getUserByOfficeId(@RequestBody UserViewByOfficeIdRequest userByOfficeId) throws Exception {
+        return userService.getUserByOfficeId(userByOfficeId); }*/
+
+        /*
+    получить пользователя по ID офиса
+    */
+
+    @ApiOperation(value = "/api/office/list", nickname = "/api/office/list", httpMethod = "GET")
+    @GetMapping("/api/user/list")
+    public List<UserViewByOfficeIdResponse> getUserByOfficeId(@RequestParam Long officeId,
+                                                              @RequestParam (value = "firstName", required=false) String firstName,
+                                                              @RequestParam (value = "middleName", required=false) String middleName,
+                                                              @RequestParam (value = "secondName", required=false) String secondName,
+                                                              @RequestParam (value = "position", required=false) String position,
+                                                              @RequestParam (value = "docCode", required=false) String docCode,
+                                                              @RequestParam (value = "country", required=false) String country) throws Exception {
+        return userService.getUserByOfficeId(officeId, firstName, middleName, secondName, position, docCode, country); }
 
     /*
     получить пользователя по ID

@@ -12,10 +12,7 @@ import ru.bellintegrator.practice.organization.MyException.OrgOutException;
 import ru.bellintegrator.practice.organization.MyException.OrganisationValidationException;
 import ru.bellintegrator.practice.user.dao.UserDao;
 import ru.bellintegrator.practice.user.model.User;
-import ru.bellintegrator.practice.user.view.UserView;
-import ru.bellintegrator.practice.user.view.UserViewLoadById;
-import ru.bellintegrator.practice.user.view.UserViewSave;
-import ru.bellintegrator.practice.user.view.UserViewUpdate;
+import ru.bellintegrator.practice.user.view.*;
 
 import java.util.List;
 import java.util.function.Function;
@@ -41,8 +38,64 @@ public class UserServiceImpl implements UserService {
     }
 
     /*
-    получить организацию по ID
-    */
+    получить пользователя по ID офиса
+
+    @Override
+    public List<UserViewByOfficeIdResponse> getUserByOfficeId(UserViewByOfficeIdRequest userByOfficeId) {
+        if (userByOfficeId.docCode != null) {
+            // Находим документ в БД Doc по docName
+            try {
+                docDao.getByName(userByOfficeId.docCode.toString());
+            } catch (Exception e) {
+                throw new OrganisationValidationException("Документа с таким docName нет в БД Doc. Чтобы " +
+                        "присвоить этот документ данному пользователю, его (документ) необходимо сначала добавить в БД Doc.");
+            }
+        }
+        List<User> userList;
+        try {
+            userList = userDao.getUserByOfficeId(userByOfficeId);
+        } catch (Exception e) {
+            throw new OrgOutException("Организации с такой комбинацией параметров нет");
+        }
+        return userList.stream().map(elem -> new UserViewByOfficeIdResponse(elem.getId(), elem.getFirstName(), elem.getMiddleName(), elem.getSecondName(), elem.getPosition())).collect(Collectors.toList());
+    }*/
+
+    /*
+получить пользователя по ID офиса
+*/
+    @Override
+    public List<UserViewByOfficeIdResponse> getUserByOfficeId(Long officeId, String firstName, String middleName,
+                                                              String secondName, String position, String docCode,
+                                                              String country) {
+        List<User> userList;
+        try {
+            userList = userDao.getUserByOfficeId(officeId, firstName, middleName,
+                    secondName, position, docCode, country);
+        } catch (Exception e) {
+            throw new OrgOutException("Пользователей с такой комбинацией параметров нет");
+        }
+        return userList.stream().map(elem -> new UserViewByOfficeIdResponse(elem.getId(), elem.getFirstName(), elem.getMiddleName(), elem.getSecondName(), elem.getPosition())).collect(Collectors.toList());
+    }
+    /*
+                                ПРИМЕР ИЗ ОФИСОВ
+         public List<OfficeView> getOfficeByOrgId(Long orgId, String name, String phoneOffice, Boolean isActive) {
+        List<Office> officeList;
+        try {
+            officeList = officeDao.getOfficeByOrgId(orgId, name, phoneOffice, isActive);
+        } catch (Exception e) {
+            if ((name != null) || (isActive != null)) {
+                throw new OrgOutException("Организации с такой комбинацией параметров нет");
+            } else {
+                throw new OrgOutException("Офиса с такой организацией внутри нет");
+            }
+        }
+        return officeList.stream().map(elem -> new OfficeView(elem.getId(), elem.getName(), elem.getIsActive())).collect(Collectors.toList());elem.getId(), elem.getFirstName(), elem.getSecondName(), elem.getPosition()
+    }
+     */
+
+    /*
+        получить пользователя по ID
+        */
     @Override
     public UserViewLoadById loadById(Long id) {
         UserViewLoadById userViewLoadById = new UserViewLoadById();

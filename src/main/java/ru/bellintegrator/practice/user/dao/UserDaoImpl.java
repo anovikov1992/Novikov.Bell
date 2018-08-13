@@ -2,14 +2,16 @@ package ru.bellintegrator.practice.user.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.bellintegrator.practice.country.model.Country;
+import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.user.model.User;
+import ru.bellintegrator.practice.user.view.UserViewByOfficeIdRequest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +27,118 @@ public class UserDaoImpl implements UserDao {
         this.em = em;
     }
 
+    /*
+    получить пользователей по ID офиса
 
+    @Override
+    public List<User> getUserByOfficeId(UserViewByOfficeIdRequest userByOfficeId) {
+        return loadByCriteriaByOfficeId(userByOfficeId);
+    }
+
+    public List<User> loadByCriteriaByOfficeId(UserViewByOfficeIdRequest userByOfficeId) {
+        CriteriaQuery<User> criteria = buildCriteriaByOfficeId(userByOfficeId);
+        TypedQuery<User> query = em.createQuery(criteria);
+        return query.getResultList();
+    }
+
+    private CriteriaQuery<User> buildCriteriaByOfficeId(UserViewByOfficeIdRequest userByOfficeId) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<User> cq = builder.createQuery(User.class);
+        CriteriaBuilder qb = em.getCriteriaBuilder();
+
+        Root<Office> officeRoot = cq.from(Office.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(qb.equal(officeRoot.get("id"), userByOfficeId.officeId));
+
+        Join<Office, User> join = officeRoot.join("users");
+
+        if (userByOfficeId.firstName != null) {
+            predicates.add(qb.equal(join.get("firstName"), userByOfficeId.firstName));
+        }
+        if (userByOfficeId.secondName != null) {
+            predicates.add(qb.equal(join.get("secondName"), userByOfficeId.secondName));
+        }
+        if (userByOfficeId.middleName != null) {
+            predicates.add(qb.equal(join.get("middleName"), userByOfficeId.middleName));
+        }
+        if (userByOfficeId.position != null) {
+            predicates.add(qb.equal(join.get("position"), userByOfficeId.position));
+        }
+        if (userByOfficeId.docCode != null) {
+            predicates.add(qb.equal(join.get("docCode"), userByOfficeId.docCode));
+        }
+        if (userByOfficeId.citizenshipCode != null) {
+            predicates.add(qb.equal(join.get("citizenshipCode"), userByOfficeId.citizenshipCode));
+        }
+
+        cq.select(join).where(predicates.toArray(new Predicate[]{}));
+        return cq;
+    }*/
+
+    /*
+    получить пользователей по ID офиса
+    */
+    @Override
+    public List<User> getUserByOfficeId(Long officeId, String firstName, String middleName,
+                                        String secondName, String position, String docCode,
+                                        String country) {
+        return loadByCriteriaByOfficeId(officeId, firstName, middleName,
+                secondName, position, docCode, country);
+    }
+
+    public List<User> loadByCriteriaByOfficeId(Long officeId, String firstName, String middleName,
+                                               String secondName, String position, String docCode,
+                                               String country) {
+        CriteriaQuery<User> criteria = buildCriteriaByOfficeId(officeId, firstName, middleName, secondName, position, docCode, country);
+        TypedQuery<User> query = em.createQuery(criteria);
+        return query.getResultList();
+    }
+
+    private CriteriaQuery<User> buildCriteriaByOfficeId(Long officeId, String firstName, String middleName,
+                                                        String secondName, String position, String docCode,
+                                                        String country) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<User> cq = builder.createQuery(User.class);
+        CriteriaBuilder qb = em.getCriteriaBuilder();
+
+        Root<Office> officeRoot = cq.from(Office.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(qb.equal(officeRoot.get("id"), officeId));
+
+        Join<Office, User> join = officeRoot.join("users");
+
+        if (firstName != null) {
+            predicates.add(qb.equal(join.get("firstName"), firstName));
+        }
+        if (secondName != null) {
+            predicates.add(qb.equal(join.get("secondName"), secondName));
+        }
+        if (middleName != null) {
+            predicates.add(qb.equal(join.get("middleName"), middleName));
+        }
+        if (position != null) {
+            predicates.add(qb.equal(join.get("position"), position));
+        }
+        if (docCode != null) {
+            predicates.add(qb.equal(join.get("docCode"), docCode));
+        }
+        if (country != null) {
+            Root<Country> countryRoot = cq.from(Country.class);
+            Join<User, Country> join1 = countryRoot.join("country");
+           // Join<Office, User> join = officeRoot.join("users");
+
+            predicates.add(qb.equal(join1.get("citizenshipCode"), country));
+        }
+
+        cq.select(join).where(predicates.toArray(new Predicate[]{}));
+        return cq;
+    }
+
+    /*
+    получить пользователя по ID
+    */
     @Override
     public User loadById(Long id) {
             Query query = em.createQuery("SELECT o FROM User o WHERE o.id = :id");
@@ -45,8 +158,8 @@ public class UserDaoImpl implements UserDao {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
 
-        Root<User> organization = criteria.from(User.class);
-        criteria.where(builder.equal(organization.get("Name"), name));
+        Root<User> userRoot = criteria.from(User.class);
+        criteria.where(builder.equal(userRoot.get("Name"), name));
         return criteria;
     }
 

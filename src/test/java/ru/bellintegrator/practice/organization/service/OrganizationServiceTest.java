@@ -138,49 +138,29 @@ public class OrganizationServiceTest {
     }
 
     @Test
-    public void verifyDelete(){
-        Long id = 1L;
-
-        doNothing().when(organizationDao).delete(id);
-
-        organizationService.delete(id);
-
-        verify(organizationDao).delete(id);
-    }
-
-    @Test
     public void verifyGetAllOrganization() {
 
-        Organization organization1 = new Organization();
-
-        organization1.setName("ООО Test");
-        organization1.setFullName("Общество с ограниченной ответственностью Test");
-        organization1.setInn(1233213211L);
-        organization1.setKpp(123321321L);
-        organization1.setUrAddress("Покровская");
-        organization1.setPhone(79205555555L);
-        organization1.setActive(true);
-
         Organization organization2 = new Organization();
+        organization2.setId(2L);
         organization2.setName("ООО Test1");
         organization2.setFullName("Общество с ограниченной ответственностью Test1");
-        organization2.setInn(1233213555L);
-        organization1.setKpp(123852321L);
-        organization1.setUrAddress("Покровская2");
-        organization1.setPhone(79205777755L);
+        organization2.setInn(12L);
+        organization2.setKpp(1238L);
+        organization2.setUrAddress("Покровская2");
+        organization2.setPhone(79205777755L);
         organization2.setActive(true);
 
         List<Organization> organizations = new ArrayList<>();
-        organizations.add(organization1);
+        organizations.add(organization);
         organizations.add(organization2);
-     //   System.out.println("Лист организаций - " + organizations);
+        //   System.out.println("Лист организаций - " + organizations);
 
 
         when(organizationDao.getAllOrganization()).thenReturn(organizations);
         List<OrganizationView> organizationViews = organizationService.getAllOrganization();
 
+        assertEquals(organizations.get(0).getName(), organizationViews.get(0).name);
 
-        assertEquals(organization1.getName(), organizationViews.get(0).name);
 
     }
 

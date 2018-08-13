@@ -33,9 +33,10 @@ CREATE TABLE IF NOT EXISTS doc (
 CREATE TABLE IF NOT EXISTS country (
    id                   INTEGER  PRIMARY KEY AUTO_INCREMENT,
    version              INTEGER NOT NULL,
-   country_name         VARCHAR(50) NOT NULL,
-   country_code         INTEGER(50)  NOT NULL,
-   citizenship_code     VARCHAR(250)  NOT NULL
+   country_name         VARCHAR(50) NOT NULL UNIQUE,
+   country_code         INTEGER(50)  NOT NULL UNIQUE,
+   citizenship_code     VARCHAR(250)  NOT NULL UNIQUE,
+   CONSTRAINT country_FKEY_citizenship_code   FOREIGN KEY (citizenship_code) REFERENCES country(citizenship_code)
 );
 
 CREATE TABLE IF NOT EXISTS user (
@@ -52,7 +53,9 @@ CREATE TABLE IF NOT EXISTS user (
    office_id           INTEGER  ,
    doc_id              INTEGER  ,
    country_id          INTEGER  ,
+   citizenship_code    VARCHAR(50)  ,
+
    CONSTRAINT user_FKEY_doc   FOREIGN KEY (doc_id) REFERENCES doc(id),
    CONSTRAINT user_FKEY_office   FOREIGN KEY (office_id) REFERENCES office(id),
-   CONSTRAINT user_FKEY_country   FOREIGN KEY (country_id) REFERENCES country(id)
+   CONSTRAINT user_FKEY_country   FOREIGN KEY (citizenship_code) REFERENCES country(citizenship_code)
 );
