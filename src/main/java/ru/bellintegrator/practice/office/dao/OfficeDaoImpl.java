@@ -8,62 +8,65 @@ import ru.bellintegrator.practice.organization.model.Organization;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class OfficeDaoImpl implements OfficeDao {
 
-    private final EntityManager em1;
+    private final EntityManager em;
 
     public OfficeDaoImpl(EntityManager em) {
-        this.em1 = em;
+        this.em = em;
     }
 
     /*
     получить офисы по ID организации
     */
     @Override
-    public Office getOfficeByOrgId(Long orgId, String name/*, String phone*/, Boolean isActive) {
-        return loadByCriteria(orgId, name/*, phone*/, isActive);
+    public List<Office> getOfficeByOrgId(Long orgId, String name, String phoneOffice, Boolean isActive) {
+        return loadByCriteria(orgId, name, phoneOffice, isActive);
     }
 
     @Override
-    public Office loadByCriteria(Long orgId, String name/*, String phone*/, Boolean isActive) {
-        CriteriaQuery<Office> criteria = buildCriteria(orgId, name/*, phone*/, isActive);
-        TypedQuery<Office> query = em1.createQuery(criteria);
-        return query.getSingleResult();
+    public List<Office> loadByCriteria(Long orgId, String name, String phoneOffice, Boolean isActive) {
+        CriteriaQuery<Office> criteria = buildCriteria(orgId, name, phoneOffice, isActive);
+        TypedQuery<Office> query = em.createQuery(criteria);
+        return query.getResultList();
     }
 
-    private CriteriaQuery<Office> buildCriteria(Long orgId, String name/*, String phone*/, Boolean isActive) {
-        CriteriaBuilder builder = em1.getCriteriaBuilder();
+    private CriteriaQuery<Office> buildCriteria(Long orgId, String name, String phoneOffice, Boolean isActive) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Office> cq = builder.createQuery(Office.class);
-        CriteriaBuilder qb = em1.getCriteriaBuilder();
+        CriteriaBuilder qb = em.getCriteriaBuilder();
 
-        Root<Office> officeRoot = cq.from(Office.class);
+        Root<Organization> organizationRoot = cq.from(Organization.class);
 
         List<Predicate> predicates = new ArrayList<>();
-        predicates.add(qb.equal(officeRoot.get("organization"), orgId));
+        predicates.add(qb.equal(organizationRoot.get("id"), orgId));
+
+        Join<Organization, Office> join = organizationRoot.join("offices");
+
         if (name != null) {
-            predicates.add(qb.equal(officeRoot.get("name"), name));
+            predicates.add(qb.equal(join.get("name"), name));
         }
-      /*  if (phone != null) {
-            predicates.add(qb.equal(officeRoot.get("phone"), phone));
-        }*/
+        if (phoneOffice != null) {
+            predicates.add(qb.equal(join.get("phoneOffice"), phoneOffice));
+        }
         if (isActive != null) {
-            predicates.add(qb.equal(officeRoot.get("isActive"), isActive));
+            predicates.add(qb.equal(join.get("isActive"), isActive));
         }
-        cq.select(officeRoot).where(predicates.toArray(new Predicate[]{}));
+        cq.select(join).where(predicates.toArray(new Predicate[]{}));
         return cq;
     }
 
+    /*
+    получить офис по ID
+    */
     @Override
     public Office loadById(Long id) {
-        Query query = em1.createQuery("SELECT o FROM Office o WHERE o.id = :id");
+        Query query = em.createQuery("SELECT o FROM Office o WHERE o.id = :id");
         query.setParameter("id", id);
         Office result1 = (Office)query.getSingleResult();
         return result1;
@@ -75,7 +78,7 @@ public class OfficeDaoImpl implements OfficeDao {
     @Override
     @Transactional
     public void save(Office office) {
-        em1.persist(office);
+        em.persist(office);
     }
 
     /*
@@ -83,7 +86,7 @@ public class OfficeDaoImpl implements OfficeDao {
      */
     @Override
     public List<Office> getAllOffice() {
-        TypedQuery<Office> query = em1.createQuery("SELECT p FROM Office p", Office.class);
+        TypedQuery<Office> query = em.createQuery("SELECT p FROM Office p", Office.class);
         return query.getResultList();
     }
     
@@ -93,9 +96,9 @@ public class OfficeDaoImpl implements OfficeDao {
     */
     @Override
     public void setOrganizationRelationshipNull(Long id) {
-        Organization org = em1.find(Organization.class, id);
+        Organization org = em.find(Organization.class, id);
         try {
-            Query query = em1.createQuery("SELECT o FROM Office o WHERE o.organization = :organization");
+            Query query = em.createQuery("SELECT o FROM Office o WHERE o.organization = :organization");
             query.setParameter("organization", org);
             Office officeOrgToNull = (Office)query.getSingleResult();
             officeOrgToNull.setOrganization(null);

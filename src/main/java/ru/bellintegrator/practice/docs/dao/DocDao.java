@@ -7,4 +7,6 @@ import java.util.List;
 public interface DocDao {
 
     List<Doc> getAllDocs();
+
+    Doc getByName(String name);
 }

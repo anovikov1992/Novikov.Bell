@@ -22,7 +22,7 @@ public class UserViewUpdate {
 
     public String phoneUser;
 
-//    public String docName;
+    public String docName;
 
     public String docNumber;
 

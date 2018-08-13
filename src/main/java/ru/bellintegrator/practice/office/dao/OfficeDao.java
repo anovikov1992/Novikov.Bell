@@ -9,8 +9,8 @@ public interface OfficeDao {
     /*
     получить офисы по ID органищации
      */
-    Office getOfficeByOrgId (Long orgId, String name/*, String phone*/, Boolean isActive);
-    Office loadByCriteria(Long orgId, String name/*, String phone*/, Boolean isActive);
+    List<Office> getOfficeByOrgId (Long orgId, String name, String phoneOffice, Boolean isActive);
+    List<Office> loadByCriteria(Long orgId, String name, String phoneOffice, Boolean isActive);
 
     /*
     получить офис по ID

@@ -4,6 +4,10 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.bellintegrator.practice.country.dao.CountryDao;
+import ru.bellintegrator.practice.country.model.Country;
+import ru.bellintegrator.practice.docs.dao.DocDao;
+import ru.bellintegrator.practice.docs.model.Doc;
 import ru.bellintegrator.practice.organization.MyException.OrgOutException;
 import ru.bellintegrator.practice.organization.MyException.OrganisationValidationException;
 import ru.bellintegrator.practice.user.dao.UserDao;
@@ -26,10 +30,14 @@ public class UserServiceImpl implements UserService {
 
 
     private final UserDao userDao;
+    private final DocDao docDao;
+    private final CountryDao countryDao;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao, DocDao docDao, CountryDao countryDao) {
         this.userDao = userDao;
+        this.docDao = docDao;
+        this.countryDao = countryDao;
     }
 
     /*
@@ -72,6 +80,15 @@ public class UserServiceImpl implements UserService {
     */
     @Override
     public void update(UserViewUpdate userViewUpdate) {
+        if (userViewUpdate.id == null) {
+            throw new OrganisationValidationException("Поле ID является обязательным");
+        }
+        if (userViewUpdate.firstName == null) {
+            throw new OrganisationValidationException("Поле firstName является обязательным");
+        }
+        if (userViewUpdate.position == null) {
+            throw new OrganisationValidationException("Поле position является обязательным");
+        }
         User user;
         try {
            user = userDao.loadById(userViewUpdate.id);
@@ -89,9 +106,21 @@ public class UserServiceImpl implements UserService {
         if (userViewUpdate.phoneUser != null) {
             user.setPhoneUser(validatePhone(userViewUpdate.phoneUser));
         }
-
-        // сделать с docName
-
+        if (userViewUpdate.docName != null) {
+            // Находим документ в БД Doc по docName
+            Doc doc;
+            try {
+                doc = docDao.getByName(userViewUpdate.docName);
+            } catch (Exception e) {
+                throw new OrganisationValidationException("Документа с таким docName нет в БД Doc. Чтобы " +
+                        "присвоить этот документ данному пользователю, его (документ) необходимо сначала добавить в БД Doc.");
+            }
+            // Присваим документ пользователю
+            if (doc != null)
+            {
+                user.setDoc(doc);
+            }
+        }
         if (userViewUpdate.docNumber != null) {
             user.setDocNumber(validateDocNumber(userViewUpdate.docNumber));
         }
@@ -99,7 +128,19 @@ public class UserServiceImpl implements UserService {
             user.setDocDate(userViewUpdate.docDate);
         }
         if (userViewUpdate.citizenshipCode != null) {
-            user.getCountry().setCitizenshipCode(userViewUpdate.citizenshipCode);
+            // Находим страну в БД Country по citizenshipCode
+            Country country;
+            try {
+                country = countryDao.getByCitizenshipCode(userViewUpdate.citizenshipCode);
+            } catch (Exception e) {
+                throw new OrganisationValidationException("Страны с таким citizenshipCode нет в БД Country. Чтобы " +
+                        "присвоить этот citizenshipCode данному пользователю, его (citizenshipCode) необходимо сначала добавить в БД Country.");
+            }
+            // Присваим страну пользователю
+            if (country != null)
+            {
+                user.setCountry(country);
+            }
         }
 
         if (userViewUpdate.isIdentified != null) {
@@ -112,18 +153,62 @@ public class UserServiceImpl implements UserService {
     */
     @Override
     public void add(UserViewSave userViewSave) {
-        //String firstName, String middleName, String secondName, String position, Long phoneUser,
-        //                Doc doc, Date docDate, Long docNumber, Country country, Boolean isIdentified
-        User user = new User(userViewSave.firstName, userViewSave.middleName);
-/*        if (organization.phone == null) {
-            ogr = new Organization  (organization.name, organization.fullName, validate(organization.inn),
-                    validateKppNumberLength(organization.kpp),  organization.urAddress,  organization.isActive);
+        User user = new User();
+        if (userViewSave.firstName == null) {
+            throw new OrganisationValidationException("Поле firstName является обязательным");
         }
-        else {
-            ogr = new Organization (organization.name, organization.fullName, validate(organization.inn),
-                    validateKppNumberLength(organization.kpp),  organization.urAddress,
-                    phoneToLong(organization.phone), organization.isActive);
-        }*/
+        if (userViewSave.position == null) {
+            throw new OrganisationValidationException("Поле position является обязательным");
+        }
+        if (userViewSave.docName != null) {
+            // Находим документ в БД Doc по docName
+            Doc doc;
+            try {
+                doc = docDao.getByName(userViewSave.docName);
+            } catch (Exception e) {
+                throw new OrganisationValidationException("Документа с таким docName нет в БД Doc. Чтобы " +
+                        "присвоить этот документ данному пользователю, его (документ) необходимо сначала добавить в БД Doc.");
+            }
+            // Присваим документ пользователю
+            if (doc != null)
+            {
+                user.setDoc(doc);
+            }
+        }
+        if (userViewSave.citizenshipCode != null) {
+            // Находим страну в БД Country по citizenshipCode
+            Country country;
+            try {
+                country = countryDao.getByCitizenshipCode(userViewSave.citizenshipCode);
+            } catch (Exception e) {
+                throw new OrganisationValidationException("Страны с таким citizenshipCode нет в БД Country. Чтобы " +
+                        "присвоить этот citizenshipCode данному пользователю, его (citizenshipCode) необходимо сначала добавить в БД Country.");
+            }
+            // Присваим страну пользователю
+            if (country != null)
+            {
+                user.setCountry(country);
+            }
+        }
+        if (userViewSave.secondName != null) {
+            user.setSecondName(userViewSave.secondName);
+        }
+        if (userViewSave.middleName != null) {
+            user.setMiddleName(userViewSave.middleName);
+        }
+        if (userViewSave.phoneUser != null) {
+            user.setPhoneUser(validatePhone(userViewSave.phoneUser));
+        }
+ // попробуем без указания docCode
+        if (userViewSave.docNumber != null) {
+            user.setDocNumber(validateDocNumber(userViewSave.docNumber));
+        }
+        if (userViewSave.docDate != null) {
+            user.setDocDate(userViewSave.docDate);
+        }
+        if (userViewSave.isIdentified != null) {
+            user.setIdentified(userViewSave.isIdentified);
+        }
         userDao.save(user);
     }
 

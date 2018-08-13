@@ -26,10 +26,6 @@ public class Country {
     @Column(name = "citizenship_code")
     private String citizenshipCode;
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<User> users;
-
-
     public Long getId() {
         return id;
     }
@@ -70,13 +66,6 @@ public class Country {
         this.citizenshipCode = citizenshipCode;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 
     public Country() {}
 

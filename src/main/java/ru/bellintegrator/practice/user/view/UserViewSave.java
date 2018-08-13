@@ -20,17 +20,15 @@ public class UserViewSave {
 
     public String phoneUser;
 
-    public Doc doc;
+    public String docCode; //берется из справочника по документам
 
-//    public String docCode; //берется из справочника по документам
-
-//    public String docName; //берется из справочника по документам
+    public String docName; //берется из справочника по документам
 
     public String docNumber;
 
     public Date docDate;
 
-//    public String citizenshipCode; //берется из справочника по странам
+    public String citizenshipCode; //берется из справочника по странам
 
     public Boolean isIdentified;
 
@@ -40,12 +38,15 @@ public class UserViewSave {
         return "UserViewSave{" +
                 "firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +
-             /*   ", secondName='" + secondName + '\'' +
+                ", secondName='" + secondName + '\'' +
                 ", position='" + position + '\'' +
                 ", phoneUser='" + phoneUser + '\'' +
+                ", docCode='" + docCode + '\'' +
+                ", docName='" + docName + '\'' +
                 ", docNumber='" + docNumber + '\'' +
                 ", docDate=" + docDate +
-                ", isIdentified=" + isIdentified +*/
+                ", citizenshipCode='" + citizenshipCode + '\'' +
+                ", isIdentified=" + isIdentified +
                 '}';
     }
 }

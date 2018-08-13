@@ -2,7 +2,7 @@ package ru.bellintegrator.practice.office.service;
 
 
 import ru.bellintegrator.practice.office.view.OfficeViewLoadById;
-import ru.bellintegrator.practice.office.view.OfficeViewList;
+import ru.bellintegrator.practice.office.view.OfficeView;
 import ru.bellintegrator.practice.office.view.OfficeViewSave;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface OfficeService {
     /*
     получить офис по ID организации
     */
-    OfficeViewList getOfficeByOrgId(Long orgId, String name,/* String phone,*/ Boolean isActive) throws Exception;
+    List<OfficeView> getOfficeByOrgId(Long orgId, String name, String phoneOffice, Boolean isActive) throws Exception;
 
     /*
     получить организацию по ID

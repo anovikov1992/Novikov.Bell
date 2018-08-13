@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.office.service.OfficeService;
 import ru.bellintegrator.practice.office.view.OfficeViewLoadById;
-import ru.bellintegrator.practice.office.view.OfficeViewList;
+import ru.bellintegrator.practice.office.view.OfficeView;
 import ru.bellintegrator.practice.office.view.OfficeViewSave;
 import ru.bellintegrator.practice.organization.ResponseSuccess.ResponseView;
 
@@ -29,11 +29,11 @@ public class OfficeController {
 
     @ApiOperation(value = "/api/office/list", nickname = "получить офис по ID организации", httpMethod = "GET")
     @GetMapping("/api/office/list")
-    public OfficeViewList getOfficeByOrgId(@RequestParam Long orgId,
-                                           @RequestParam (value = "inn", required=false) String name,
-                                  //         @RequestParam (value = "inn", required=false) String phone,
-                                           @RequestParam (value = "isActive", required=false) Boolean isActive) throws Exception {
-        return officeService.getOfficeByOrgId(orgId, name,/* phone,*/ isActive); }
+    public List<OfficeView> getOfficeByOrgId(@RequestParam Long orgId,
+                                             @RequestParam (value = "name", required=false) String name,
+                                             @RequestParam (value = "phone", required=false) String phone,
+                                             @RequestParam (value = "isActive", required=false) Boolean isActive) throws Exception {
+        return officeService.getOfficeByOrgId(orgId, name, phone, isActive); }
 
     /*
     получить офис по ID

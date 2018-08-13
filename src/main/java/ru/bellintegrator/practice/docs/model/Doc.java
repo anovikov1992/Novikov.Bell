@@ -15,10 +15,10 @@ public class Doc {
     @Version
     private Integer version;
 
-    @Column(name = "doc_name")
+    @Column(name = "doc_name", unique = true)
     private String docName;
 
-    @Column(name = "doc_code")
+    @Column(name = "doc_code", unique = true)
     private Long docCode;
 
 
