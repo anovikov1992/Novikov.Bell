@@ -37,8 +37,8 @@ public class User {
     @Column(name = "position")
     private String position;
 
-    @Column(name = "phone")
-    private long phone;
+    @Column(name = "phone_user")
+    private Long phoneUser;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doc_id")
@@ -47,12 +47,15 @@ public class User {
     @Column(name = "docDate")
     private Date docDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @Column(name = "doc_number")
+    private Long docNumber;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id")
     private Country country;
 
     @Column(name = "isIdentified")
-    private boolean isIdentified;
+    private Boolean isIdentified;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "office_id")
@@ -107,15 +110,15 @@ public class User {
         this.position = position;
     }
 
-    public long getPhone() {
-        return phone;
+    public Long getPhoneUser() {
+        return phoneUser;
     }
 
-    public void setPhone(long phone) {
-        this.phone = phone;
+    public void setPhoneUser(Long phoneUser) {
+        this.phoneUser = phoneUser;
     }
 
-   public Doc getDoc() {
+    public Doc getDoc() {
         return doc;
     }
 
@@ -131,6 +134,14 @@ public class User {
         this.docDate = docDate;
     }
 
+    public Long getDocNumber() {
+        return docNumber;
+    }
+
+    public void setDocNumber(Long docNumber) {
+        this.docNumber = docNumber;
+    }
+
     public Country getCountry() {
         return country;
     }
@@ -139,14 +150,13 @@ public class User {
         this.country = country;
     }
 
-    public boolean getIsIdentified() {
+    public Boolean getIdentified() {
         return isIdentified;
     }
 
-    public void setIsIdentified(boolean identified) {
+    public void setIdentified(Boolean identified) {
         isIdentified = identified;
     }
-
 
     public Office getOffice() {
         return office;
@@ -163,18 +173,55 @@ public class User {
     }
 
     public User(Long id, Integer version, String firstName, String middleName, String secondName, String position,
-                long phone, Doc doc, Date docDate, Country country, boolean isIdentified, Office office) {
+                Long phoneUser, Doc doc, Date docDate, Country country, Boolean isIdentified, Office office) {
         this.id = id;
         this.version = version;
         this.firstName = firstName;
         this.middleName = middleName;
         this.secondName = secondName;
         this.position = position;
-        this.phone = phone;
+        this.phoneUser = phoneUser;
         this.doc = doc;
         this.docDate = docDate;
         this.country = country;
         this.isIdentified = isIdentified;
         this.office = office;
+    }
+
+    public User(String firstName, String middleName, String secondName, String position, Long phoneUser,
+                Doc doc, Date docDate, Long docNumber, Country country, Boolean isIdentified) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.secondName = secondName;
+        this.position = position;
+        this.phoneUser = phoneUser;
+        this.doc = doc;
+        this.docDate = docDate;
+        this.docNumber = docNumber;
+        this.country = country;
+        this.isIdentified = isIdentified;
+    }
+
+    public User(String firstName, String middleName) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", version=" + version +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", position='" + position + '\'' +
+                ", phoneUser=" + phoneUser +
+                ", doc=" + doc +
+                ", docDate=" + docDate +
+                ", country=" + country +
+                ", isIdentified=" + isIdentified +
+                ", office=" + office +
+                '}';
     }
 }

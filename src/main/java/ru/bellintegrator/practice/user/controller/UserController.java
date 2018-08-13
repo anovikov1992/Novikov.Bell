@@ -4,9 +4,13 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.bellintegrator.practice.organization.ResponseSuccess.ResponseView;
 import ru.bellintegrator.practice.user.model.User;
 import ru.bellintegrator.practice.user.service.UserService;
 import ru.bellintegrator.practice.user.view.UserView;
+import ru.bellintegrator.practice.user.view.UserViewLoadById;
+import ru.bellintegrator.practice.user.view.UserViewSave;
+import ru.bellintegrator.practice.user.view.UserViewUpdate;
 
 import java.util.List;
 
@@ -23,34 +27,42 @@ public class UserController {
         this.userService = userService;
     }
 
-
-    @ApiOperation(value = "loadByName", nickname = "loadByName", httpMethod = "GET")                                //получить организацию по имени
-    @GetMapping("/api/user/loadByName")
-    public User loadByName(@RequestParam String name) {
-        return userService.loadByName(name);
+    /*
+    получить пользователя по ID
+    */
+    @ApiOperation(value = "api/user/{id}", nickname = "получить офис по ID", httpMethod = "GET")
+    @GetMapping("/api/user/{id}")
+    public UserViewLoadById loadById (@PathVariable Long id) {
+        return userService.loadById(id);
     }
 
-
-    @ApiOperation(value = "getAllUser", nickname = "getAllUser", httpMethod = "GET")                //получить весь список организаций
-    @GetMapping("/api/user")
-    public List<UserView> getAllUser() { return userService.getAllUser(); }
-
-
-    @ApiOperation(value = "update", nickname = "update", httpMethod = "POST")                                       //обновить данные организации
+    /*
+    обновить данные пользователя
+    */
+    @ApiOperation(value = "update", nickname = "update", httpMethod = "POST")
     @PostMapping("/api/user/update")
     @ResponseStatus(value = HttpStatus.OK)
-    public void update(@RequestBody UserView organization) throws Exception {
-        userService.update(organization); }
+    public ResponseView update(@RequestBody UserViewUpdate userViewUpdate) throws Exception {
+        userService.update(userViewUpdate);
+        return new ResponseView("success");
+    }
 
+    /*
+    добавить нового пользователя
+    */
+    @ApiOperation(value = "api/user/save", nickname = "api/user/save",
+            httpMethod = "POST")
+    @PostMapping("/api/user/save")
+    public ResponseView add( @RequestBody UserViewSave userViewSave) throws Exception {
+        userService.add(userViewSave);
+        return new ResponseView("success");
+    }
 
-    @ApiOperation(value = "addOrg", nickname = "addOrg", httpMethod = "POST")                                       //добавить организацию
-    @PostMapping("/api/user")
-    public void add(@RequestBody UserView organization) { userService.add(organization); }
-
-
-
-
-
-
+    /*
+    получить весь список пользователей
+    */
+    @ApiOperation(value = "getAllUser", nickname = "getAllUser", httpMethod = "GET")
+    @GetMapping("/api/user")
+    public List<UserView> getAllUser() { return userService.getAllUser(); }
 
 }

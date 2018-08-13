@@ -26,18 +26,12 @@ public class OfficeServiceImpl implements OfficeService {
     получить офис по ID организации
     */
     @Override
-    public OfficeViewList getOfficeByOrgId(Long orgId, String name/*, String phone*/, Boolean isActive) throws Exception {
+    public OfficeViewList getOfficeByOrgId(Long orgId, String name/*, String phone*/, Boolean isActive) {
         OfficeViewList officeViewList = null;
-        System.out.println("Service++++++++++++++++++++++++++++++++++++++++++");
-       // validatePhone(phone);
         try {
             Office officeByOrgId = officeDao.getOfficeByOrgId (orgId, name,/* phone,*/ isActive);
-            System.out.println("-----------------------------------------");
             officeViewList.id = officeByOrgId.getId();
-            System.out.println("ServiceOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
             officeViewList.name = officeByOrgId.getName();
-            System.out.println("ServiceKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-          //  officeViewList.phone = officeByOrgId.getId();
             officeViewList.isActive = officeByOrgId.getIsActive();
         }catch (Exception e){
             if ((name != null) || (isActive != null)) {
@@ -60,7 +54,7 @@ public class OfficeServiceImpl implements OfficeService {
             officeViewLoadById.id = office.getId();
             officeViewLoadById.name = office.getName();
             officeViewLoadById.address = office.getAddress();
-            officeViewLoadById.phoneOffice = office.getPhoneOffice()    ;
+            officeViewLoadById.phoneOffice = office.getPhoneOffice();
             officeViewLoadById.isActive = office.getIsActive();
         }catch (Exception e){
             throw new OrgOutException("Офиса с таким ID нет в базе данных");
@@ -72,7 +66,7 @@ public class OfficeServiceImpl implements OfficeService {
     обновить данные офисa
     */
     @Override
-    public void update(OfficeViewLoadById office) throws Exception {
+    public void update(OfficeViewLoadById office) {
         Office office1 = null;
         try {
             office1 = officeDao.loadById(office.id);
@@ -100,7 +94,7 @@ public class OfficeServiceImpl implements OfficeService {
     добавить новый офис
     */
     @Override
-    public void add(OfficeViewSave office) throws Exception {
+    public void add(OfficeViewSave office) {
         if (office.phoneOffice != null) {
             validatePhone(office.phoneOffice);
         }
@@ -127,7 +121,6 @@ public class OfficeServiceImpl implements OfficeService {
             view.address = p.getAddress();
             view.isActive = p.getIsActive();
             view.phoneOffice = p.getPhoneOffice();
-        //    view.organization = p.getOrganization();
             return view;
         };
     }

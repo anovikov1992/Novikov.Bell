@@ -42,8 +42,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
 
     @Override
     @Transactional
-    public OrganizationViewList getOrganizationByName(String name, Long inn, Boolean isActive) throws Exception {
-       // validate(inn);
+    public OrganizationViewList getOrganizationByName(String name, Long inn, Boolean isActive) {
         OrganizationViewList view = new OrganizationViewList();
         try {
             Organization organizationByName = organizationDao.getOrganizationByName(name, inn, isActive);
@@ -84,16 +83,37 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
         return organizationView;
     }
 
+
+
     /*
     обновить данные организации
     */
 
     @Override
     public void update(OrganizationViewUpdate organization) throws Exception {
-        Organization org = null;
+        if (organization.id == null) {
+            throw new OrganisationValidationException("Поле ID является обязательным параметром");
+        }
+        if (organization.name == null) {
+            throw new OrganisationValidationException("Поле name является обязательным параметром");
+        }
+        if (organization.fullName == null) {
+            throw new OrganisationValidationException("Поле fullName является обязательным параметром");
+        }
+        if (organization.inn == null) {
+            throw new OrganisationValidationException("Поле inn является обязательным параметром");
+        }
+        if (organization.kpp == null) {
+            throw new OrganisationValidationException("Поле kpp является обязательным параметром");
+        }
+        if (organization.urAddress == null) {
+            throw new OrganisationValidationException("Поле urAddress является обязательным параметром");
+        }
+        Organization org;
         try {
             org = organizationDao.loadById(organization.id);
         } catch (Exception e) {
+            throw new OrgOutException("Организации с таким ID нет в базе данных");
         }
         org.setName(organization.name);
         org.setFullName(organization.fullName);
@@ -120,6 +140,22 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
 
     @Override
     public void add(OrganizationViewSave organization) throws Exception {
+
+        if (organization.name == null) {
+            throw new OrganisationValidationException("Поле name является обязательным параметром");
+        }
+        if (organization.fullName == null) {
+            throw new OrganisationValidationException("Поле fullName является обязательным параметром");
+        }
+        if (organization.inn == null) {
+            throw new OrganisationValidationException("Поле inn является обязательным параметром");
+        }
+        if (organization.kpp == null) {
+            throw new OrganisationValidationException("Поле kpp является обязательным параметром");
+        }
+        if (organization.urAddress == null) {
+            throw new OrganisationValidationException("Поле urAddress является обязательным параметром");
+        }
         Organization ogr;
         validate(organization.inn);
         validateKppNumberLength(organization.kpp);
@@ -182,7 +218,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
         try {
             aLong = Long.parseLong(a);
         } catch (Exception e) {
-            throw new OrganisationValidationException("ИНН должен состоять из цифр");
+            throw new OrganisationValidationException("ИНН должен состоять из 10 цифр");
         }
         if (aLong != null) {
             int count = 1;
@@ -198,12 +234,12 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
         return aLong;
     }
 
-    private Long validateKppNumberLength(String a) throws Exception {
+    private Long validateKppNumberLength(String a) {
         Long aLong = null;
         try {
             aLong = Long.parseLong(a);
         } catch (Exception e) {
-            throw new OrganisationValidationException("КПП должен состоять из цифр");
+            throw new OrganisationValidationException("КПП должен состоять из 9 цифр");
         }
         int count = 1;
         Long b = aLong / 10;

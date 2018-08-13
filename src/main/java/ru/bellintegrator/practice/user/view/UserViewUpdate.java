@@ -1,56 +1,52 @@
 package ru.bellintegrator.practice.user.view;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.annotations.ApiModelProperty;
-import ru.bellintegrator.practice.country.model.Country;
-import ru.bellintegrator.practice.docs.model.Doc;
-import ru.bellintegrator.practice.office.model.Office;
 
 import java.sql.Date;
 
 
-public class UserView {
+public class UserViewUpdate {
 
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(required = true)
     public Long id;
 
-    public Integer version;
-
+    @ApiModelProperty(required = true)
     public String firstName;
 
     public String middleName;
 
     public String secondName;
 
+    @ApiModelProperty(required = true)
     public String position;
 
-    public Long phoneUser;
+    public String phoneUser;
 
-    public Doc doc;
+//    public String docName;
+
+    public String docNumber;
 
     public Date docDate;
 
-  //  public Country country;
+    public String citizenshipCode;
 
     public Boolean isIdentified;
 
-  //  public Office office;
 
     @Override
     public String toString() {
-        return "UserView{" +
+        return "UserViewUpdate{" +
                 "id=" + id +
-                ", version=" + version +
                 ", firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +
                 ", secondName='" + secondName + '\'' +
                 ", position='" + position + '\'' +
-                ", phoneUser=" + phoneUser +
-                ", doc=" + doc +
+                ", phoneUser='" + phoneUser + '\'' +
+             //   ", docName='" + docName + '\'' +
+                ", docNumber='" + docNumber + '\'' +
                 ", docDate=" + docDate +
-            //    ", country=" + country +
+                ", citizenshipCode='" + citizenshipCode + '\'' +
                 ", isIdentified=" + isIdentified +
-               // ", office=" + office +
                 '}';
     }
 }

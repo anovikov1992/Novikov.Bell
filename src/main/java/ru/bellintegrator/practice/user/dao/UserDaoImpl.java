@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.user.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -23,6 +24,16 @@ public class UserDaoImpl implements UserDao {
     public UserDaoImpl(EntityManager em) {
         this.em = em;
     }
+
+
+    @Override
+    public User loadById(Long id) {
+            Query query = em.createQuery("SELECT o FROM User o WHERE o.id = :id");
+            query.setParameter("id", id);
+            User result1 = (User)query.getSingleResult();
+            return result1;
+        }
+
 
     @Override                                                                       //получить организацию по имени
     public User loadByName(String name) {
@@ -47,12 +58,6 @@ public class UserDaoImpl implements UserDao {
     public List<User> getAllUser() {
         TypedQuery<User> query = em.createQuery("SELECT p FROM User p", User.class);
         return query.getResultList();
-    }
-
-
-    @Override
-    public User findById(Long id) {
-        return em.find(User.class, id);
     }
 
 

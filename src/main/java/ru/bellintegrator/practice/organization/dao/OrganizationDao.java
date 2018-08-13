@@ -19,9 +19,6 @@ public interface OrganizationDao {
     void save(Organization organization);       //добавить организацию в список
 
 
-  /*  Organization loadByName(String name);       //получить организацию по имени*/
-
-
     List<Organization> getAllOrganization();    //получить весь список организаций
 
 

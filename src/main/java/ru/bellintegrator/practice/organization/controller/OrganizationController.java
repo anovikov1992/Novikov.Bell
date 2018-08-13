@@ -41,7 +41,7 @@ public class OrganizationController {
     */
     @ApiOperation(value = "api/organization/{id}", nickname = "api/organization/{id}", httpMethod = "GET")
     @GetMapping("/api/organization/{id}")
-    public OrganizationView loadById (@PathVariable Long id) throws Exception {
+    public OrganizationView loadById (@PathVariable Long id) {
         return organizationService.loadById(id);
     }
 
@@ -53,7 +53,7 @@ public class OrganizationController {
     @ResponseStatus(value = HttpStatus.OK)
     public ResponseView update(@RequestBody OrganizationViewUpdate organization) throws Exception {
             organizationService.update(organization);
-        return new ResponseView("success");/*ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");*/
+        return new ResponseView("success");
     }
 
     /*
@@ -64,7 +64,7 @@ public class OrganizationController {
     @PostMapping("/api/organization/save")
     public ResponseView add( @RequestBody OrganizationViewSave organization) throws Exception {
         organizationService.add(organization);
-        return new ResponseView("success");/*ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");*/
+        return new ResponseView("success");
     }
 
 
@@ -80,8 +80,8 @@ public class OrganizationController {
     */
     @ApiOperation(value = "deleteOrganization", nickname = "deleteOrganization", httpMethod = "POST")
     @PostMapping("/api/organization/DELETE/{id}")
-    public ResponseView/*ResponseEntity<String>*/ delete(@PathVariable Long id) throws Exception {
+    public ResponseView delete(@PathVariable Long id) {
         organizationService.delete(id);
-        return new ResponseView("success");/*ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("“result”:”success”");*/
+        return new ResponseView("success");
     }
 }

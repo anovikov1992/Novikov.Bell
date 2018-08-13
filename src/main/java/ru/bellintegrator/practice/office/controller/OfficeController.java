@@ -40,7 +40,7 @@ public class OfficeController {
     */
     @ApiOperation(value = "api/office/{id}", nickname = "получить офис по ID", httpMethod = "GET")
     @GetMapping("/api/office/{id}")
-    public OfficeViewLoadById loadById (@PathVariable Long id) throws Exception {
+    public OfficeViewLoadById loadById (@PathVariable Long id) {
         return officeService.loadById(id);
     }
 

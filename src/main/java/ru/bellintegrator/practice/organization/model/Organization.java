@@ -40,7 +40,7 @@ public class Organization {
     @Column(name = "urAddress")
     private String urAddress;
 
-    @Column(name = "phone")
+    @Column(name = "phone_org")
     private Long phone;
 
     @Column(name = "is_Active")

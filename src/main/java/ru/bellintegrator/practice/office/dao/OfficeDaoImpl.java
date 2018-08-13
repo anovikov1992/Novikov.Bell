@@ -47,57 +47,19 @@ public class OfficeDaoImpl implements OfficeDao {
         Root<Office> officeRoot = cq.from(Office.class);
 
         List<Predicate> predicates = new ArrayList<>();
-        System.out.println("--DAO---KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
         predicates.add(qb.equal(officeRoot.get("organization"), orgId));
-        System.out.println("--DAO-----------------------------------");
         if (name != null) {
             predicates.add(qb.equal(officeRoot.get("name"), name));
-            System.out.println("--DAO++++++++++++++++++++++++++++++++++");
         }
       /*  if (phone != null) {
             predicates.add(qb.equal(officeRoot.get("phone"), phone));
         }*/
         if (isActive != null) {
             predicates.add(qb.equal(officeRoot.get("isActive"), isActive));
-            System.out.println("--DAO--CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
         }
         cq.select(officeRoot).where(predicates.toArray(new Predicate[]{}));
-        System.out.println("--DAO--HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-
         return cq;
     }
-
-    /*                      ПРИМЕР ИЗ ОРГАНИЗАЦИЙ
-
-
-        public Organization loadByCriteria(String name, Long inn, Boolean isActive) {
-        CriteriaQuery<Organization> criteria = buildCriteria(name, inn, isActive);
-        TypedQuery<Organization> query = em.createQuery(criteria);
-        return query.getSingleResult();
-    }
-
-    private CriteriaQuery<Organization> buildCriteria(String name, Long inn, Boolean isActive) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Organization> cq = builder.createQuery(Organization.class);
-        CriteriaBuilder qb = em.getCriteriaBuilder();
-
-        Root<Organization> organizationRoot = cq.from(Organization.class);
-
-        List<Predicate> predicates = new ArrayList<>();
-
-        predicates.add(qb.equal(organizationRoot.get("name"), name));
-        if (inn != null) {
-            predicates.add(qb.equal(organizationRoot.get("inn"), inn));
-        }
-
-        if (isActive != null) {
-            predicates.add(qb.equal(organizationRoot.get("isActive"), isActive));
-        }
-        cq.select(organizationRoot).where(predicates.toArray(new Predicate[]{}));
-
-        return cq;
-    }
-     */
 
     @Override
     public Office loadById(Long id) {

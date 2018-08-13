@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS organization (
     inn         INTEGER NOT NULL,
     kpp         INTEGER NOT NULL,
     ur_Address  VARCHAR(50) NOT NULL,
-    phone       INTEGER ,
+    phone_org       INTEGER ,
     is_Active   BOOLEAN
 );
 
@@ -39,16 +39,17 @@ CREATE TABLE IF NOT EXISTS country (
 CREATE TABLE IF NOT EXISTS user (
     id                 INTEGER      PRIMARY KEY AUTO_INCREMENT,
    version             INTEGER      NOT NULL,
-   first_name          VARCHAR(50)  NOT NULL,
-   middle_name         VARCHAR(50)  NOT NULL,
-   second_name         VARCHAR(50)  NOT NULL,
-   position            VARCHAR(50)  NOT NULL,
-   phone               INTEGER      NOT NULL,
-   doc_date            DATE         NOT NULL,
-   is_Identified       BOOLEAN     NOT NULL,
+   first_name          VARCHAR(50)  ,
+   middle_name         VARCHAR(50)  ,
+   second_name         VARCHAR(50)  ,
+   position            VARCHAR(50)  ,
+   phone_user          INTEGER      ,
+   doc_date            DATE         ,
+   doc_number          INTEGER      ,
+   is_Identified       BOOLEAN     ,
    office_id           INTEGER  ,
    doc_id              INTEGER  ,
-   country_id              INTEGER  ,
+   country_id          INTEGER  ,
    CONSTRAINT user_FKEY_doc   FOREIGN KEY (doc_id) REFERENCES doc(id),
    CONSTRAINT user_FKEY_office   FOREIGN KEY (office_id) REFERENCES office(id),
    CONSTRAINT user_FKEY_country   FOREIGN KEY (country_id) REFERENCES country(id)
