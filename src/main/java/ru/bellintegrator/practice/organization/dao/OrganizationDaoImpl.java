@@ -38,8 +38,10 @@ public class OrganizationDaoImpl implements OrganizationDao {
         return query.getResultList();
     }
 
-
-    @Override                                                                       //получить организацию по имени
+    /*
+    получить организацию по имени
+    */
+    @Override
     public Organization getOrganizationByName(String name, Long inn, Boolean isActive) {
         return loadByCriteria(name, inn, isActive);
     }

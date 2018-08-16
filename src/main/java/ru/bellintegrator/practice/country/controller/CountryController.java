@@ -24,7 +24,7 @@ public class CountryController {
     }
 
     @ApiOperation(value = "getAllCountry", nickname = "getAllCountry", httpMethod = "GET")
-    @GetMapping("/api/country")
+    @GetMapping("/api/countries")
     public List<CountryView> getAllDoc() {
     return countryService.getAllCountry();
 }

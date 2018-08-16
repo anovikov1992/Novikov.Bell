@@ -30,12 +30,12 @@ public interface UserService {
     /*
     обновить данные пользователя
     */
-    void update(UserViewUpdate userViewUpdate) throws Exception;
+    void update(UserViewUpdate userViewUpdate);
 
     /*
     добавить нового пользователя
     */
-    void add(UserViewSave userViewSave) throws Exception;
+    void add(UserViewSave userViewSave);
 
     /*
     получить весь список пользователей

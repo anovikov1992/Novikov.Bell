@@ -1,15 +1,18 @@
 package ru.bellintegrator.practice.organization.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.bellintegrator.practice.office.dao.OfficeDao;
-import ru.bellintegrator.practice.organization.MyException.*;
 import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.organization.model.Organization;
+import ru.bellintegrator.practice.organization.my.exception.OrgOutException;
+import ru.bellintegrator.practice.organization.my.exception.OrganisationValidationException;
 import ru.bellintegrator.practice.organization.view.*;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -49,7 +52,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
             view.id = organizationByName.getId();
             view.name = organizationByName.getName();
             view.isActive = organizationByName.getIsActive();
-        } catch (Exception e) {
+        } catch (EmptyResultDataAccessException e) {
             if ((inn != null) || (isActive != null)) {
                 throw  new OrgOutException("Организации с такой комбинацией параметров нет");
             }
@@ -77,7 +80,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
             organizationView.urAddress = organization.getUrAddress();
             organizationView.phone = organization.getPhone();
             organizationView.isActive = organization.getIsActive();
-        } catch (Exception e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new OrgOutException("Организации с таким ID нет в базе данных");
         }
         return organizationView;
@@ -90,7 +93,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
     */
 
     @Override
-    public void update(OrganizationViewUpdate organization) throws Exception {
+    public void update(OrganizationViewUpdate organization)  {
         if (organization.id == null) {
             throw new OrganisationValidationException("Поле ID является обязательным параметром");
         }
@@ -112,7 +115,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
         Organization org;
         try {
             org = organizationDao.loadById(organization.id);
-        } catch (Exception e) {
+        } catch (OrgOutException e) {
             throw new OrgOutException("Организации с таким ID нет в базе данных");
         }
         org.setName(organization.name);
@@ -137,9 +140,8 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
     /*
     добавить организацию
     */
-
     @Override
-    public void add(OrganizationViewSave organization) throws Exception {
+    public void add(OrganizationViewSave organization) {
 
         if (organization.name == null) {
             throw new OrganisationValidationException("Поле name является обязательным параметром");
@@ -213,11 +215,11 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
 
 
 
-    private Long validate(String a) throws Exception {
-        Long aLong = null;
+    private Long validate(String a) {
+        Long aLong;
         try {
             aLong = Long.parseLong(a);
-        } catch (Exception e) {
+        } catch (OrganisationValidationException e) {
             throw new OrganisationValidationException("ИНН должен состоять из 10 цифр");
         }
         if (aLong != null) {
@@ -238,7 +240,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
         Long aLong = null;
         try {
             aLong = Long.parseLong(a);
-        } catch (Exception e) {
+        } catch (OrganisationValidationException e) {
             throw new OrganisationValidationException("КПП должен состоять из 9 цифр");
         }
         int count = 1;
@@ -257,13 +259,12 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
         try {
             Long a = Long.parseLong(phone);
             return a;
-        } catch (Exception e) {
+        } catch (OrganisationValidationException e) {
             throw new OrganisationValidationException("Телефон должен состоять из цифр");
         }
     }
 
     private String phoneToString (Long phone) {
-        String a = phone.toString();
-        return a;
+        return phone.toString();
     }
 }

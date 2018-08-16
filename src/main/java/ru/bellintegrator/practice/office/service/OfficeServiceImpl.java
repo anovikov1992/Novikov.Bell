@@ -5,9 +5,10 @@ import ru.bellintegrator.practice.office.dao.OfficeDao;
 import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.office.view.OfficeView;
 import ru.bellintegrator.practice.office.view.OfficeViewLoadById;
+import ru.bellintegrator.practice.office.view.OfficeViewRequest;
 import ru.bellintegrator.practice.office.view.OfficeViewSave;
-import ru.bellintegrator.practice.organization.MyException.OrgOutException;
-import ru.bellintegrator.practice.organization.MyException.OrganisationValidationException;
+import ru.bellintegrator.practice.organization.my.exception.OrgOutException;
+import ru.bellintegrator.practice.organization.my.exception.OrganisationValidationException;
 
 import java.util.List;
 import java.util.function.Function;
@@ -26,17 +27,16 @@ public class OfficeServiceImpl implements OfficeService {
     получить офис по ID организации
     */
     @Override
-    public List<OfficeView> getOfficeByOrgId(Long orgId, String name, String phoneOffice, Boolean isActive) {
-        List<Office> officeList;
-        try {
-            officeList = officeDao.getOfficeByOrgId(orgId, name, phoneOffice, isActive);
-        } catch (Exception e) {
-            if ((name != null) || (isActive != null)) {
-                throw new OrgOutException("Организации с такой комбинацией параметров нет");
-            } else {
-                throw new OrgOutException("Офиса с такой организацией внутри нет");
-            }
+    public List<OfficeView> getOfficeByOrgId(OfficeViewRequest officeViewRequest) {
+        if (officeViewRequest.orgId == null) {
+            throw new OrganisationValidationException("Поле orgId является обязательным");
         }
+        if (officeViewRequest.phoneOffice != null) {
+            validatePhone(officeViewRequest.phoneOffice);
+        }
+        List<Office> officeList;
+        officeList = officeDao.getOfficeByOrgId(officeViewRequest);
+
         return officeList.stream().map(elem -> new OfficeView(elem.getId(), elem.getName(), elem.getIsActive())).collect(Collectors.toList());
     }
 
@@ -53,7 +53,7 @@ public class OfficeServiceImpl implements OfficeService {
             officeViewLoadById.address = office.getAddress();
             officeViewLoadById.phoneOffice = office.getPhoneOffice();
             officeViewLoadById.isActive = office.getIsActive();
-        }catch (Exception e){
+        }catch (OrgOutException e){
             throw new OrgOutException("Офиса с таким ID нет в базе данных");
         }
         return officeViewLoadById;
@@ -67,7 +67,7 @@ public class OfficeServiceImpl implements OfficeService {
         Office office1 = null;
         try {
             office1 = officeDao.loadById(office.id);
-        }catch (Exception e) {
+        }catch (OrgOutException e) {
             throw new OrgOutException("Офиса с таким ID нет в базе данных");
         }
         if ((office.name == null) || (office.address == null) || (office.isActive == null)) {
@@ -126,7 +126,7 @@ public class OfficeServiceImpl implements OfficeService {
         Long aLong;
         try {
             aLong = Long.parseLong(a);
-        } catch (Exception e) {
+        } catch (OrganisationValidationException e) {
             throw new OrganisationValidationException("Телефон должен состоять из цифр");
         }
         return aLong;

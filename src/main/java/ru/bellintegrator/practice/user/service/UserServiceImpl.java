@@ -1,6 +1,5 @@
 package ru.bellintegrator.practice.user.service;
 
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,8 +7,8 @@ import ru.bellintegrator.practice.country.dao.CountryDao;
 import ru.bellintegrator.practice.country.model.Country;
 import ru.bellintegrator.practice.docs.dao.DocDao;
 import ru.bellintegrator.practice.docs.model.Doc;
-import ru.bellintegrator.practice.organization.MyException.OrgOutException;
-import ru.bellintegrator.practice.organization.MyException.OrganisationValidationException;
+import ru.bellintegrator.practice.organization.my.exception.OrgOutException;
+import ru.bellintegrator.practice.organization.my.exception.OrganisationValidationException;
 import ru.bellintegrator.practice.user.dao.UserDao;
 import ru.bellintegrator.practice.user.model.User;
 import ru.bellintegrator.practice.user.view.*;
@@ -61,8 +60,8 @@ public class UserServiceImpl implements UserService {
     }*/
 
     /*
-получить пользователя по ID офиса
-*/
+    получить пользователя по ID офиса
+    */
     @Override
     public List<UserViewByOfficeIdResponse> getUserByOfficeId(Long officeId, String firstName, String middleName,
                                                               String secondName, String position, String docCode,
@@ -70,32 +69,16 @@ public class UserServiceImpl implements UserService {
         List<User> userList;
         try {
             userList = userDao.getUserByOfficeId(officeId, firstName, middleName,
-                    secondName, position, docCode, country);
-        } catch (Exception e) {
+                                                secondName, position, docCode, country);
+        } catch (OrgOutException e) {
             throw new OrgOutException("Пользователей с такой комбинацией параметров нет");
         }
         return userList.stream().map(elem -> new UserViewByOfficeIdResponse(elem.getId(), elem.getFirstName(), elem.getMiddleName(), elem.getSecondName(), elem.getPosition())).collect(Collectors.toList());
     }
-    /*
-                                ПРИМЕР ИЗ ОФИСОВ
-         public List<OfficeView> getOfficeByOrgId(Long orgId, String name, String phoneOffice, Boolean isActive) {
-        List<Office> officeList;
-        try {
-            officeList = officeDao.getOfficeByOrgId(orgId, name, phoneOffice, isActive);
-        } catch (Exception e) {
-            if ((name != null) || (isActive != null)) {
-                throw new OrgOutException("Организации с такой комбинацией параметров нет");
-            } else {
-                throw new OrgOutException("Офиса с такой организацией внутри нет");
-            }
-        }
-        return officeList.stream().map(elem -> new OfficeView(elem.getId(), elem.getName(), elem.getIsActive())).collect(Collectors.toList());elem.getId(), elem.getFirstName(), elem.getSecondName(), elem.getPosition()
-    }
-     */
 
     /*
-        получить пользователя по ID
-        */
+    получить пользователя по ID
+    */
     @Override
     public UserViewLoadById loadById(Long id) {
         UserViewLoadById userViewLoadById = new UserViewLoadById();
@@ -122,7 +105,7 @@ public class UserServiceImpl implements UserService {
                 userViewLoadById.citizenshipCode = null;
             }
             userViewLoadById.isIdentified = user.getIdentified();
-        }catch (Exception e){
+        }catch (OrgOutException e){
             throw new OrgOutException("Пользователя с таким ID нет в базе данных");
         }
         return userViewLoadById;
@@ -145,7 +128,7 @@ public class UserServiceImpl implements UserService {
         User user;
         try {
            user = userDao.loadById(userViewUpdate.id);
-        } catch (Exception e) {
+        } catch (OrgOutException e) {
             throw new OrgOutException("Пользователя с таким ID нет в базе данных");
         }
         user.setFirstName(userViewUpdate.firstName);
@@ -164,7 +147,7 @@ public class UserServiceImpl implements UserService {
             Doc doc;
             try {
                 doc = docDao.getByName(userViewUpdate.docName);
-            } catch (Exception e) {
+            } catch (OrganisationValidationException e) {
                 throw new OrganisationValidationException("Документа с таким docName нет в БД Doc. Чтобы " +
                         "присвоить этот документ данному пользователю, его (документ) необходимо сначала добавить в БД Doc.");
             }
@@ -185,7 +168,7 @@ public class UserServiceImpl implements UserService {
             Country country;
             try {
                 country = countryDao.getByCitizenshipCode(userViewUpdate.citizenshipCode);
-            } catch (Exception e) {
+            } catch (OrganisationValidationException e) {
                 throw new OrganisationValidationException("Страны с таким citizenshipCode нет в БД Country. Чтобы " +
                         "присвоить этот citizenshipCode данному пользователю, его (citizenshipCode) необходимо сначала добавить в БД Country.");
             }
@@ -218,7 +201,7 @@ public class UserServiceImpl implements UserService {
             Doc doc;
             try {
                 doc = docDao.getByName(userViewSave.docName);
-            } catch (Exception e) {
+            } catch (OrganisationValidationException e) {
                 throw new OrganisationValidationException("Документа с таким docName нет в БД Doc. Чтобы " +
                         "присвоить этот документ данному пользователю, его (документ) необходимо сначала добавить в БД Doc.");
             }
@@ -233,7 +216,7 @@ public class UserServiceImpl implements UserService {
             Country country;
             try {
                 country = countryDao.getByCitizenshipCode(userViewSave.citizenshipCode);
-            } catch (Exception e) {
+            } catch (OrganisationValidationException e) {
                 throw new OrganisationValidationException("Страны с таким citizenshipCode нет в БД Country. Чтобы " +
                         "присвоить этот citizenshipCode данному пользователю, его (citizenshipCode) необходимо сначала добавить в БД Country.");
             }
@@ -303,7 +286,7 @@ public class UserServiceImpl implements UserService {
         Long aLong;
         try {
             aLong = Long.parseLong(a);
-        } catch (Exception e) {
+        } catch (OrganisationValidationException e) {
             throw new OrganisationValidationException("Телефон должен состоять из цифр");
         }
         return aLong;
@@ -313,7 +296,7 @@ public class UserServiceImpl implements UserService {
         Long aLong;
         try {
             aLong = Long.parseLong(a);
-        } catch (Exception e) {
+        } catch (OrganisationValidationException e) {
             throw new OrganisationValidationException("Номер докумнета должен состоять из цифр");
         }
         return aLong;

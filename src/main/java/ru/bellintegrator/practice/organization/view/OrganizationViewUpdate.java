@@ -37,7 +37,7 @@ public class OrganizationViewUpdate {
                 ", inn=" + inn +
                 ", kpp=" + kpp +
                 ", urAddress='" + urAddress + '\'' +
-                ", phone=" + phone +
+                ", phoneOffice=" + phone +
                 ", isActive=" + isActive +
                 '}';
     }

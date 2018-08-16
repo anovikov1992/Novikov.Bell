@@ -3,6 +3,7 @@ package ru.bellintegrator.practice.office.dao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.office.model.Office;
+import ru.bellintegrator.practice.office.view.OfficeViewRequest;
 import ru.bellintegrator.practice.organization.model.Organization;
 
 import javax.persistence.EntityManager;
@@ -25,13 +26,13 @@ public class OfficeDaoImpl implements OfficeDao {
     получить офисы по ID организации
     */
     @Override
-    public List<Office> getOfficeByOrgId(Long orgId, String name, String phoneOffice, Boolean isActive) {
-        return loadByCriteria(orgId, name, phoneOffice, isActive);
+    public List<Office> getOfficeByOrgId(OfficeViewRequest officeViewRequest) {
+        return loadByCriteria(officeViewRequest);
     }
 
-    @Override
-    public List<Office> loadByCriteria(Long orgId, String name, String phoneOffice, Boolean isActive) {
-        CriteriaQuery<Office> criteria = buildCriteria(orgId, name, phoneOffice, isActive);
+    public List<Office> loadByCriteria(OfficeViewRequest officeViewRequest) {
+        CriteriaQuery<Office> criteria = buildCriteria(officeViewRequest.orgId, officeViewRequest.name,
+                                            officeViewRequest.phoneOffice, officeViewRequest.isActive);
         TypedQuery<Office> query = em.createQuery(criteria);
         return query.getResultList();
     }

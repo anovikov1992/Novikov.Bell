@@ -3,6 +3,7 @@ package ru.bellintegrator.practice.office.service;
 
 import ru.bellintegrator.practice.office.view.OfficeViewLoadById;
 import ru.bellintegrator.practice.office.view.OfficeView;
+import ru.bellintegrator.practice.office.view.OfficeViewRequest;
 import ru.bellintegrator.practice.office.view.OfficeViewSave;
 
 import java.util.List;
@@ -10,9 +11,14 @@ import java.util.List;
 public interface OfficeService {
 
     /*
-    получить офис по ID организации
+    получить офис по ID организации (с помощью @RequestBody)
     */
-    List<OfficeView> getOfficeByOrgId(Long orgId, String name, String phoneOffice, Boolean isActive) throws Exception;
+    List<OfficeView> getOfficeByOrgId(OfficeViewRequest officeViewRequest) ;
+
+    /*
+    получить офис по ID организации (с помощью @RequestParam)
+    *//*
+    List<OfficeView> getOfficeByOrgId(Long orgId, String name, String phoneOffice, Boolean isActive) throws Exception;*/
 
     /*
     получить организацию по ID
@@ -22,12 +28,12 @@ public interface OfficeService {
     /*
     обновить данные организации
     */
-    void update(OfficeViewLoadById office) throws Exception;
+    void update(OfficeViewLoadById office);
 
     /*
     добавить организацию
     */
-    void add(OfficeViewSave office) throws Exception;
+    void add(OfficeViewSave office);
 
     /*
     получить весь список офисов

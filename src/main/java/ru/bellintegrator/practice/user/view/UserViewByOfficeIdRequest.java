@@ -19,7 +19,7 @@ public class UserViewByOfficeIdRequest {
 
     public String position;
 
-    public Long docCode;
+    public String docCode;
 
     public String citizenshipCode;
 

@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice.organization.ResponseSuccess;
+package ru.bellintegrator.practice.advice;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -13,5 +13,9 @@ public class ResponseView {
 
     public ResponseView(String result) {
         this.result = result;
+    }
+
+    public ResponseView(Object data) {
+        this.data = data;
     }
 }

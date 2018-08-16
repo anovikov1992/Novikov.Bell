@@ -1,6 +1,7 @@
 package ru.bellintegrator.practice.office.dao;
 
 import ru.bellintegrator.practice.office.model.Office;
+import ru.bellintegrator.practice.office.view.OfficeViewRequest;
 
 import java.util.List;
 
@@ -9,8 +10,7 @@ public interface OfficeDao {
     /*
     получить офисы по ID органищации
      */
-    List<Office> getOfficeByOrgId (Long orgId, String name, String phoneOffice, Boolean isActive);
-    List<Office> loadByCriteria(Long orgId, String name, String phoneOffice, Boolean isActive);
+    List<Office> getOfficeByOrgId (OfficeViewRequest officeViewRequest);
 
     /*
     получить офис по ID

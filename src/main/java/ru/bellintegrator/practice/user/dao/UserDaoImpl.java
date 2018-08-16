@@ -3,6 +3,7 @@ package ru.bellintegrator.practice.user.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.country.model.Country;
+import ru.bellintegrator.practice.docs.model.Doc;
 import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.user.model.User;
 import ru.bellintegrator.practice.user.view.UserViewByOfficeIdRequest;
@@ -107,32 +108,30 @@ public class UserDaoImpl implements UserDao {
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(qb.equal(officeRoot.get("id"), officeId));
 
-        Join<Office, User> join = officeRoot.join("users");
+        Join<Office, User> officeUserJoin = officeRoot.join("users");
 
         if (firstName != null) {
-            predicates.add(qb.equal(join.get("firstName"), firstName));
+            predicates.add(qb.equal(officeUserJoin.get("firstName"), firstName));
         }
         if (secondName != null) {
-            predicates.add(qb.equal(join.get("secondName"), secondName));
+            predicates.add(qb.equal(officeUserJoin.get("secondName"), secondName));
         }
         if (middleName != null) {
-            predicates.add(qb.equal(join.get("middleName"), middleName));
+            predicates.add(qb.equal(officeUserJoin.get("middleName"), middleName));
         }
         if (position != null) {
-            predicates.add(qb.equal(join.get("position"), position));
+            predicates.add(qb.equal(officeUserJoin.get("position"), position));
         }
         if (docCode != null) {
-            predicates.add(qb.equal(join.get("docCode"), docCode));
+            Join<Doc, User> docUserJoin = officeUserJoin.join("doc");
+            predicates.add(qb.equal(docUserJoin.get("docCode"), docCode));
         }
         if (country != null) {
-            Root<Country> countryRoot = cq.from(Country.class);
-            Join<User, Country> join1 = countryRoot.join("country");
-           // Join<Office, User> join = officeRoot.join("users");
-
-            predicates.add(qb.equal(join1.get("citizenshipCode"), country));
+            Join<Country, User> countryUserJoin = officeUserJoin.join("country");
+            predicates.add(qb.equal(countryUserJoin.get("citizenshipCode"), country));
         }
 
-        cq.select(join).where(predicates.toArray(new Predicate[]{}));
+        cq.select(officeUserJoin).where(predicates.toArray(new Predicate[]{}));
         return cq;
     }
 

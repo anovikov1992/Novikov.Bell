@@ -1,8 +1,9 @@
 package ru.bellintegrator.practice.organization.service;
 
-import javassist.NotFoundException;
-import ru.bellintegrator.practice.organization.model.Organization;
-import ru.bellintegrator.practice.organization.view.*;
+import ru.bellintegrator.practice.organization.view.OrganizationView;
+import ru.bellintegrator.practice.organization.view.OrganizationViewList;
+import ru.bellintegrator.practice.organization.view.OrganizationViewSave;
+import ru.bellintegrator.practice.organization.view.OrganizationViewUpdate;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface OrganizationService {
     /*
     получить организацию по имени
     */
-    OrganizationViewList getOrganizationByName(String name, Long inn, Boolean isActive) throws Exception;
+    OrganizationViewList getOrganizationByName(String name, Long inn, Boolean isActive);
 
     /*
     получить организацию по ID
@@ -24,12 +25,12 @@ public interface OrganizationService {
     /*
     обновить данные организации
     */
-    void update(OrganizationViewUpdate organization) throws Exception;
+    void update(OrganizationViewUpdate organization) ;
 
     /*
     добавить организацию
     */
-    void add(OrganizationViewSave organization) throws Exception;
+    void add(OrganizationViewSave organization) ;
 
     /*
     получить весь список организаций

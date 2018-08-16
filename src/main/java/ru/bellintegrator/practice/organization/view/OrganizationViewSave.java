@@ -28,7 +28,7 @@ public class OrganizationViewSave {
                 ", inn=" + inn +
                 ", kpp=" + kpp +
                 ", urAddress='" + urAddress + '\'' +
-                ", phone=" + phone +
+                ", phoneOffice=" + phone +
                 ", isActive=" + isActive +
                 '}';
     }

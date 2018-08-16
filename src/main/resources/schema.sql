@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS doc (
    version              INTEGER NOT NULL,
    doc_name             VARCHAR(50) NOT NULL UNIQUE ,
    doc_code             INTEGER  NOT NULL UNIQUE,
-   CONSTRAINT doc_FKEY_doc_name   FOREIGN KEY (doc_name) REFERENCES doc(doc_name),
+   CONSTRAINT doc_FKEY_doc_name  FOREIGN KEY (doc_name) REFERENCES doc(doc_name),
 
 );
 

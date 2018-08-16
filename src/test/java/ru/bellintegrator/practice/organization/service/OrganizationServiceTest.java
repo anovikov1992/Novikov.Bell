@@ -1,28 +1,21 @@
 package ru.bellintegrator.practice.organization.service;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.bellintegrator.practice.Application;
-import ru.bellintegrator.practice.office.dao.OfficeDao;
-import ru.bellintegrator.practice.organization.MyException.OrgOutException;
-import ru.bellintegrator.practice.organization.MyException.OrganisationValidationException;
+import ru.bellintegrator.practice.organization.my.exception.OrgOutException;
+import ru.bellintegrator.practice.organization.my.exception.OrganisationValidationException;
 import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.organization.model.Organization;
 import ru.bellintegrator.practice.organization.view.OrganizationView;
 import ru.bellintegrator.practice.organization.view.OrganizationViewList;
 import ru.bellintegrator.practice.organization.view.OrganizationViewSave;
-import ru.bellintegrator.practice.organization.view.OrganizationViewUpdate;
 
 import java.util.ArrayList;
 import java.util.List;

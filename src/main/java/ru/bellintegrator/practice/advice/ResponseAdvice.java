@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice.organization.ResponseSuccess;
+package ru.bellintegrator.practice.advice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,17 +17,19 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
-        return methodParameter.getContainingClass().getName().endsWith("Impl");
+        return methodParameter.getContainingClass().getName().endsWith("Controller");
     }
 
     @Override
-    public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
+    public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType,
+                                  Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest,
+                                  ServerHttpResponse serverHttpResponse) {
         ResponseView view = new ResponseView();
 
         log.info(methodParameter.getParameterType().getSimpleName());
 
         if(methodParameter.getParameterType().getSimpleName().equals("void")) {
-            view.result = "success";
+            view.result = "advice";
             return view;
         }
 

@@ -34,8 +34,8 @@ INSERT INTO Country (id, version, country_name, country_code, citizenship_code) 
 INSERT INTO Country (id, version, country_name, country_code, citizenship_code) VALUES (1, 0, 'Республика Колумбия', 170, 'COL');
 
 
-INSERT INTO User (id, version, first_name, middle_name, second_name, position, phone_user, doc_date, is_Identified, citizenship_code, doc_number, office_id) VALUES (0, 0, 'User0',  'Userovich0', 'Userov0', 'director0', 3215456, '1986-08-15', true, 'RUS', 654321, 0);
+INSERT INTO User (id, version, first_name, middle_name, second_name, position, phone_user, doc_date, is_Identified, doc_number, office_id, country_id) VALUES (0, 0, 'User0',  'Userovich0', 'Userov0', 'director0', 3215456, '1986-08-15', true, 654321, 0, 0);
 
-INSERT INTO User (id, version, first_name, middle_name, second_name, position, phone_user, doc_date, is_Identified, doc_id, citizenship_code, doc_number, office_id) VALUES (1, 0, 'User1',  'Userovich1', 'Userov1', 'director1', 3215116, '1111-11-11', true, 1, 'COL', 98756, 0);
+INSERT INTO User (id, version, first_name, middle_name, second_name, position, phone_user, doc_date, is_Identified, doc_id, doc_number, office_id, country_id) VALUES (1, 0, 'User1',  'Userovich1', 'Userov1', 'director1', 3215116, '1111-11-11', true, 1, 98756, 0, 1);
 
-INSERT INTO User (id, version, first_name, middle_name, second_name, position, phone_user, doc_date, is_Identified, doc_number) VALUES (2, 0, 'User1',  'Userovich1', 'Userov1', 'director1', 3215116, '1111-11-11', true, 98756);
+INSERT INTO User (id, version, first_name, middle_name, second_name, position, phone_user, doc_date, is_Identified, doc_number, doc_id, office_id, country_id) VALUES (2, 0, 'User2',  'Userovich2', 'Userov2', 'director2', 3215116, '1111-11-11', true, 98756, 0, 0, 0);

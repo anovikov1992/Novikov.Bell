@@ -22,7 +22,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
         }
 
         @ApiOperation(value = "getAllDoc", nickname = "getAllUser", httpMethod = "GET")
-        @GetMapping("/api/doc")
+        @GetMapping("/api/docs")
         public List<DocView> getAllDoc() {
         return docService.getAllDocs();
     }

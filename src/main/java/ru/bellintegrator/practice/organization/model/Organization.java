@@ -194,7 +194,7 @@ public class Organization {
                 ", inn=" + inn +
                 ", kpp=" + kpp +
                 ", urAddress='" + urAddress + '\'' +
-                ", phone=" + phone +
+                ", phoneOffice=" + phone +
                 ", isActive=" + isActive +
                 ", offices=" + offices +
                 '}';
