@@ -32,7 +32,4 @@ public interface OfficeDao {
      */
     void delete(Long id);
 
-    void setOrganizationRelationshipNull(Long id);
-
-
 }

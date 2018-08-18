@@ -33,16 +33,16 @@ public class OrganizationDBTest {
 
     @Before
     public void setup() {
-//        organization = new Organization();
-//        organization.setId(100L);
-//        organization.setName("ООО Test");
-//        organization.setFullName("Общество с ограниченной ответственностью Test");
-//        organization.setInn(1236237899L);
-//        organization.setKpp(123852897L);
-//        organization.setPhone(32165L);
-//        organization.setActive(true);
-//        organization.setUrAddress("address");
-//        organizationDao.save(organization);
+        organization = new Organization();
+        organization.setId(100L);
+        organization.setName("ООО Test");
+        organization.setFullName("Общество с ограниченной ответственностью Test");
+        organization.setInn(1236237899L);
+        organization.setKpp(123852897L);
+        organization.setPhone(32165L);
+        organization.setActive(true);
+        organization.setUrAddress("address");
+        organizationDao.save(organization);
     }
 
     @Test

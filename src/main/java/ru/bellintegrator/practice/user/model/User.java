@@ -40,7 +40,7 @@ public class User {
     @Column(name = "phone_user")
     private Long phoneUser;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "doc_id")
     private Doc doc;
 
@@ -50,7 +50,7 @@ public class User {
     @Column(name = "doc_number")
     private Long docNumber;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "country_id")
     private Country country;
 

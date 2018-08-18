@@ -30,7 +30,7 @@ public interface UserDao {
     void save(User user);       //добавить организацию в список
 
     /*
-    обнулить связь пользователей с офисом
-     */
-    void setOfficeRelationshipNull(Long id);
+    удалить пользователя по ID
+    */
+    void delete(Long id);
 }

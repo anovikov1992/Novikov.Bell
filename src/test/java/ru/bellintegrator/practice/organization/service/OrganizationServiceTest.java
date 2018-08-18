@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.bellintegrator.practice.organization.my.exception.OrgOutException;
 import ru.bellintegrator.practice.organization.my.exception.OrganisationValidationException;
@@ -73,7 +74,7 @@ public class OrganizationServiceTest {
     }
 
 
-    @Test(expected = OrgOutException.class)
+    @Test(expected = OrganisationValidationException.class)
     public void verifyExceptionWhenOrganizationWithThisNameIsNotExists() throws Exception {
         when(organizationDao.getOrganizationByName("ООО Test123", null, null)).thenThrow(OrganisationValidationException.class);
         organizationService.getOrganizationByName("ООО Test123", null, null);
@@ -89,7 +90,7 @@ public class OrganizationServiceTest {
     }
 
 
-    @Test(expected = OrgOutException.class)
+    @Test(expected = OrganisationValidationException.class)
     public void verifyExceptionWhenOrganizationIsNotExists() {
         when(organizationDao.loadById(100L)).thenThrow(OrganisationValidationException.class);
         organizationService.loadById(1L);

@@ -46,16 +46,14 @@ public class OfficeController {
     */
     @ApiOperation(value = "update", nickname = "update", httpMethod = "POST")
     @PostMapping("/api/office/update")
-    @ResponseStatus(value = HttpStatus.OK)
-    public ResponseView update(@RequestBody OfficeViewLoadById office) {
+    public void update(@RequestBody OfficeViewLoadById office) {
         officeService.update(office);
-        return new ResponseView("advice");
     }
 
     /*
     добавить офис
     */
-    @ApiOperation(value = "api/organization/save", nickname = "api/organization/save",
+    @ApiOperation(value = "api/office/save", nickname = "api/office/save",
             httpMethod = "POST")
     @PostMapping("/api/office/save")
     public void add( @RequestBody OfficeViewSave officeViewSave) {

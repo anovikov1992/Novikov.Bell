@@ -99,20 +99,20 @@ public class OfficeDaoImpl implements OfficeDao {
         em.remove(officeRemove);
     }
 
-    /*
-    обнуляем связь офиса с организацией перед удалением организации
-    */
-    @Override
-    public void setOrganizationRelationshipNull(Long id) {
-        Organization org = em.find(Organization.class, id);
-        try {
-            Query query = em.createQuery("SELECT o FROM Office o WHERE o.organization = :organization");
-            query.setParameter("organization", org);
-            Office officeOrgToNull = (Office)query.getSingleResult();
-            System.out.println("нашли организации - " + officeOrgToNull);
-            officeOrgToNull.setOrganization(null);
-        } catch (Exception e) {
-            System.out.println("на организацию ссылок нет, удаление успешно");
-        }
-    }
+//    /*
+//    обнуляем связь офиса с организацией перед удалением организации
+//    */
+//    @Override
+//    public void setOrganizationRelationshipNull(Long id) {
+//        Organization org = em.find(Organization.class, id);
+//        try {
+//            Query query = em.createQuery("SELECT o FROM Office o WHERE o.organization = :organization");
+//            query.setParameter("organization", org);
+//            Office officeOrgToNull = (Office)query.getSingleResult();
+//            System.out.println("нашли организации - " + officeOrgToNull);
+//            officeOrgToNull.setOrganization(null);
+//        } catch (Exception e) {
+//            System.out.println("на организацию ссылок нет, удаление успешно");
+//        }
+//    }
 }

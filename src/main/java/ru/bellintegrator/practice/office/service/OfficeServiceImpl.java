@@ -77,27 +77,30 @@ public class OfficeServiceImpl implements OfficeService {
     */
     @Override
     public void update(OfficeViewLoadById office) {
-        Office office1 = null;
+        Office office1;
         try {
-            office1 = officeDao.findById(office.id);
-        }catch (OrgOutException e) {
+             office1 = officeDao.findById(office.id);
+        }catch (EmptyResultDataAccessException e) {
             throw new OrgOutException("Офиса с таким ID нет в базе данных");
         }
         if ((office.name == null) || (office.address == null) || (office.isActive == null)) {
             throw new OrgOutException("Заполнены не все обязательные поля");
         }
-
+        System.out.println("0000000000000000000000000000000");
         office1.setName(office.name);
         office1.setAddress(office.address);
         office1.setIsActive(office.isActive);
+        System.out.println("1111111111111111111111111111111111111");
         if (office.phoneOffice == null) {
             office.phoneOffice = office1.getPhoneOffice();
             office1.setPhoneOffice(office.phoneOffice);
+            System.out.println("2222222222222222222222222222222222222");
         } else {
             validatePhone(office.phoneOffice);
             office1.setPhoneOffice(office.phoneOffice);
+            System.out.println("333333333333333333333333333333333333333");
         }
-        officeDao.save(office1);
+        System.out.println("444444444444444444444444444444444444444444444444");
     }
 
     /*
@@ -148,19 +151,17 @@ public class OfficeServiceImpl implements OfficeService {
     @Transactional
     public void delete(Long id) {
         Office office = officeDao.findById(id);
-        userDao.setOfficeRelationshipNull(id);
         if (office.getOrganization() != null) {
             office.getOrganization().removeOffice(office);
-        } else {
-            officeDao.delete(id);
         }
+            officeDao.delete(id);
     }
 
     private Long validatePhone(String a) {
         Long aLong;
         try {
             aLong = Long.parseLong(a);
-        } catch (OrganisationValidationException e) {
+        } catch (NumberFormatException e) {
             throw new OrganisationValidationException("Телефон должен состоять из цифр");
         }
         return aLong;

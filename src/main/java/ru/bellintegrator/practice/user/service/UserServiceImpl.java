@@ -272,7 +272,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long id) {
-
+        try {
+            User user = userDao.loadById(id);
+            if (user.getOffice() != null) {
+                user.getOffice().removeUser(user);
+            }
+            userDao.delete(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new OrganisationValidationException("Пользователя с таким ID нет в БД");
+        }
     }
 
     private Long validatePhone(String a) {

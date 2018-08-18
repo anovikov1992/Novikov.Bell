@@ -91,10 +91,9 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
     /*
     обновить данные организации
     */
-
     @Override
     public void update(OrganizationViewUpdate organization)  {
-        if (organization.id == null) {
+        if (organization.id == null ) {
             throw new OrganisationValidationException("Поле ID является обязательным параметром");
         }
         if (organization.name == null) {
@@ -115,7 +114,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
         Organization org;
         try {
             org = organizationDao.loadById(organization.id);
-        } catch (OrgOutException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new OrgOutException("Организации с таким ID нет в базе данных");
         }
         org.setName(organization.name);
@@ -176,7 +175,6 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
     /*
     получить весь список организаций
     */
-
     @Override
     @Transactional(readOnly = true)
     public List<OrganizationView> getAllOrganization() {
@@ -207,7 +205,6 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
 
     @Override
     public void delete(Long id) {
-        officeDao.setOrganizationRelationshipNull(id);
         organizationDao.delete(id);
     }
 

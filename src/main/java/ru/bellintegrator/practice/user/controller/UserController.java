@@ -70,7 +70,6 @@ public class UserController {
     @ApiOperation(value = "getAllUser", nickname = "getAllUser", httpMethod = "GET")
     @GetMapping("/api/user/all")
     public List<UserView> getAllUser() {
-        System.out.println("000000000000000000000000000000000000000000000000");
         return userService.getAllUser(); }
 
     /*

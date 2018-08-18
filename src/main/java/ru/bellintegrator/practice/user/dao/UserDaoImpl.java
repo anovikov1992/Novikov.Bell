@@ -179,16 +179,25 @@ public class UserDaoImpl implements UserDao {
         em.persist(user);
     }
 
+//    @Override
+//    public void setOfficeRelationshipNull(Long id) {
+//        Office office = em.find(Office.class, id);
+//        try {
+//            Query query = em.createQuery("SELECT o FROM User o WHERE o.office = :office");
+//            query.setParameter("office", office);
+//            User userOrgToNull = (User)query.getSingleResult();
+//            userOrgToNull.setOffice(null);
+//        } catch (Exception e) {
+//            System.out.println("на организацию ссылок нет, удаление успешно");
+//        }
+//    }
+
+
     @Override
-    public void setOfficeRelationshipNull(Long id) {
-        Office office = em.find(Office.class, id);
-        try {
-            Query query = em.createQuery("SELECT o FROM User o WHERE o.office = :office");
-            query.setParameter("office", office);
-            User userOrgToNull = (User)query.getSingleResult();
-            userOrgToNull.setOffice(null);
-        } catch (Exception e) {
-            System.out.println("на организацию ссылок нет, удаление успешно");
-        }
+    public void delete(Long id) {
+        Query query = em.createQuery("SELECT o FROM User o WHERE o.id = :id");
+        query.setParameter("id", id);
+        User userRemove = (User)query.getSingleResult();
+        em.remove(userRemove);
     }
 }
