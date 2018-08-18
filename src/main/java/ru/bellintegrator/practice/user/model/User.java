@@ -40,7 +40,7 @@ public class User {
     @Column(name = "phone_user")
     private Long phoneUser;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "doc_id")
     private Doc doc;
 
@@ -50,14 +50,14 @@ public class User {
     @Column(name = "doc_number")
     private Long docNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id")
     private Country country;
 
     @Column(name = "isIdentified")
     private Boolean isIdentified;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "office_id")
     private Office office;
 

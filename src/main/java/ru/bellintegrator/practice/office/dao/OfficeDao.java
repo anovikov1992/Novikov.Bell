@@ -15,16 +15,22 @@ public interface OfficeDao {
     /*
     получить офис по ID
      */
-    Office loadById(Long id);
+    Office findById(Long id);
 
     /*
     добавить офис в список
      */
     void save(Office office);
 
-
+    /*
+    получить список всех офисов
+     */
     List<Office> getAllOffice();
 
+    /*
+    удалить офис по ID
+     */
+    void delete(Long id);
 
     void setOrganizationRelationshipNull(Long id);
 

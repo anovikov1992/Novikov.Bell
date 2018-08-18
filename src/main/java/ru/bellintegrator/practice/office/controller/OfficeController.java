@@ -38,7 +38,7 @@ public class OfficeController {
     @ApiOperation(value = "api/office/{id}", nickname = "получить офис по ID", httpMethod = "GET")
     @GetMapping("/api/office/{id}")
     public OfficeViewLoadById loadById (@PathVariable Long id) {
-        return officeService.loadById(id);
+        return officeService.findById(id);
     }
 
     /*
@@ -58,9 +58,8 @@ public class OfficeController {
     @ApiOperation(value = "api/organization/save", nickname = "api/organization/save",
             httpMethod = "POST")
     @PostMapping("/api/office/save")
-    public ResponseView add( @RequestBody OfficeViewSave officeViewSave) {
+    public void add( @RequestBody OfficeViewSave officeViewSave) {
         officeService.add(officeViewSave);
-        return new ResponseView("advice");
     }
 
     /*
@@ -70,5 +69,14 @@ public class OfficeController {
     @GetMapping("/api/office/all")
     public List<OfficeViewLoadById> getAllOffice() {
         return officeService.getAllOffice();
+    }
+
+    /*
+    удалить офис по ID
+    */
+    @ApiOperation(value = "deleteOffice", nickname = "deleteOffice", httpMethod = "POST")
+    @PostMapping("/api/office/delete/{id}")
+    public void delete(@PathVariable Long id) {
+        officeService.delete(id);
     }
 }

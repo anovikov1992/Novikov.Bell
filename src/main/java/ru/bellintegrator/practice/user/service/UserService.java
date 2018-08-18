@@ -42,5 +42,8 @@ public interface UserService {
     */
     List<UserView> getAllUser();
 
-
+    /*
+    удалить пользователя по ID
+    */
+    void delete(Long id);
 }

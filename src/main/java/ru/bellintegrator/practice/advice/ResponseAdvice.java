@@ -10,7 +10,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages="ru.bellintegrator.practice")
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     private Logger log = LoggerFactory.getLogger(ResponseAdvice.class);
@@ -29,7 +29,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         log.info(methodParameter.getParameterType().getSimpleName());
 
         if(methodParameter.getParameterType().getSimpleName().equals("void")) {
-            view.result = "advice";
+            view.result = "success";
             return view;
         }
 

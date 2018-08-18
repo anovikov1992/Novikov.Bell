@@ -11,11 +11,6 @@ public interface UserDao {
 
     /*
     получить пользователя по ID офиса
-
-    List<User> getUserByOfficeId(UserViewByOfficeIdRequest userByOfficeId);*/
-
-    /*
-    получить пользователя по ID офиса
     */
     List<User> getUserByOfficeId(Long officeId, String firstName, String middleName,
                                  String secondName, String position, String docCode,
@@ -34,4 +29,8 @@ public interface UserDao {
 
     void save(User user);       //добавить организацию в список
 
+    /*
+    обнулить связь пользователей с офисом
+     */
+    void setOfficeRelationshipNull(Long id);
 }

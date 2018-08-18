@@ -29,14 +29,26 @@ public class Office {
     private String phoneOffice;
 
     @Column(name = "is_Active")
-    private boolean isActive;
+    private Boolean isActive;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false/*, cascade = CascadeType.ALL*/)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
-    @OneToMany(mappedBy = "office")
+    @OneToMany(mappedBy = "office", cascade = CascadeType.ALL)
     private Set<User> users;
+
+    public void addUser(User user) {
+        getUsers().add(user);
+        user.setOffice(this);
+    }
+
+    public void removeUser(User user) {
+        getUsers().remove(user);
+        user.setOffice(null);
+    }
+
+
 
     public Long getId() {
         return id;
@@ -78,11 +90,11 @@ public class Office {
         this.phoneOffice = phoneOffice;
     }
 
-    public boolean getIsActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(boolean active) {
+    public void setIsActive(Boolean active) {
         isActive = active;
     }
 
@@ -102,9 +114,11 @@ public class Office {
         this.users = users;
     }
 
+
+
     public Office() {}
 
-    public Office(String name, String address, String phoneOffice, boolean isActive) {
+    public Office(String name, String address, String phoneOffice, Boolean isActive) {
         this.name = name;
         this.address = address;
         this.phoneOffice = phoneOffice;
@@ -115,11 +129,11 @@ public class Office {
         this.name = name;
     }
 
-    public Office(boolean isActive) {
+    public Office(Boolean isActive) {
         this.isActive = isActive;
     }
 
-    public Office(Long id, Integer version, String name, String address, boolean isActive, Organization organization) {
+    public Office(Long id, Integer version, String name, String address, Boolean isActive, Organization organization) {
         this.id = id;
         this.version = version;
         this.name = name;
@@ -136,7 +150,6 @@ public class Office {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", isActive=" + isActive +
-                ", organization=" + organization +
                 '}';
     }
 }

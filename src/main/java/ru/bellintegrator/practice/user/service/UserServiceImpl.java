@@ -1,12 +1,15 @@
 package ru.bellintegrator.practice.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.country.dao.CountryDao;
 import ru.bellintegrator.practice.country.model.Country;
 import ru.bellintegrator.practice.docs.dao.DocDao;
 import ru.bellintegrator.practice.docs.model.Doc;
+import ru.bellintegrator.practice.office.dao.OfficeDao;
+import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.organization.my.exception.OrgOutException;
 import ru.bellintegrator.practice.organization.my.exception.OrganisationValidationException;
 import ru.bellintegrator.practice.user.dao.UserDao;
@@ -28,36 +31,15 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final DocDao docDao;
     private final CountryDao countryDao;
+    private final OfficeDao officeDao;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, DocDao docDao, CountryDao countryDao) {
+    public UserServiceImpl(UserDao userDao, DocDao docDao, CountryDao countryDao, OfficeDao officeDao) {
         this.userDao = userDao;
         this.docDao = docDao;
         this.countryDao = countryDao;
+        this.officeDao = officeDao;
     }
-
-    /*
-    получить пользователя по ID офиса
-
-    @Override
-    public List<UserViewByOfficeIdResponse> getUserByOfficeId(UserViewByOfficeIdRequest userByOfficeId) {
-        if (userByOfficeId.docCode != null) {
-            // Находим документ в БД Doc по docName
-            try {
-                docDao.getByName(userByOfficeId.docCode.toString());
-            } catch (Exception e) {
-                throw new OrganisationValidationException("Документа с таким docName нет в БД Doc. Чтобы " +
-                        "присвоить этот документ данному пользователю, его (документ) необходимо сначала добавить в БД Doc.");
-            }
-        }
-        List<User> userList;
-        try {
-            userList = userDao.getUserByOfficeId(userByOfficeId);
-        } catch (Exception e) {
-            throw new OrgOutException("Организации с такой комбинацией параметров нет");
-        }
-        return userList.stream().map(elem -> new UserViewByOfficeIdResponse(elem.getId(), elem.getFirstName(), elem.getMiddleName(), elem.getSecondName(), elem.getPosition())).collect(Collectors.toList());
-    }*/
 
     /*
     получить пользователя по ID офиса
@@ -201,7 +183,7 @@ public class UserServiceImpl implements UserService {
             Doc doc;
             try {
                 doc = docDao.getByName(userViewSave.docName);
-            } catch (OrganisationValidationException e) {
+            } catch (EmptyResultDataAccessException e) {
                 throw new OrganisationValidationException("Документа с таким docName нет в БД Doc. Чтобы " +
                         "присвоить этот документ данному пользователю, его (документ) необходимо сначала добавить в БД Doc.");
             }
@@ -216,7 +198,7 @@ public class UserServiceImpl implements UserService {
             Country country;
             try {
                 country = countryDao.getByCitizenshipCode(userViewSave.citizenshipCode);
-            } catch (OrganisationValidationException e) {
+            } catch (EmptyResultDataAccessException e) {
                 throw new OrganisationValidationException("Страны с таким citizenshipCode нет в БД Country. Чтобы " +
                         "присвоить этот citizenshipCode данному пользователю, его (citizenshipCode) необходимо сначала добавить в БД Country.");
             }
@@ -235,7 +217,6 @@ public class UserServiceImpl implements UserService {
         if (userViewSave.phoneUser != null) {
             user.setPhoneUser(validatePhone(userViewSave.phoneUser));
         }
- // попробуем без указания docCode
         if (userViewSave.docNumber != null) {
             user.setDocNumber(validateDocNumber(userViewSave.docNumber));
         }
@@ -244,6 +225,16 @@ public class UserServiceImpl implements UserService {
         }
         if (userViewSave.isIdentified != null) {
             user.setIdentified(userViewSave.isIdentified);
+        }
+
+        if (userViewSave.officeId != null) {
+            try {
+                Office office = officeDao.findById(userViewSave.officeId);
+                office.addUser(user);
+            } catch (EmptyResultDataAccessException e) {
+                throw new OrganisationValidationException("Невозможно привязать пользователя у казанному officeId, т.к. офиса" +
+                        " с таким ID нет в БД");
+            }
         }
         userDao.save(user);
     }
@@ -262,7 +253,6 @@ public class UserServiceImpl implements UserService {
     }
     private Function<User, UserView> mapUser() {
         return p -> {
-
             UserView view = new UserView();
             view.id = Long.valueOf(p.getId());
             view.firstName = p.getFirstName();
@@ -272,21 +262,24 @@ public class UserServiceImpl implements UserService {
             view.phoneUser = p.getPhoneUser();
             view.docDate = p.getDocDate();
             view.isIdentified = p.getIdentified();
-       //     view.office = p.getOffice();
-            view.doc = p.getDoc();
-        //    view.country = p.getCountry();
             return view;
         };
     }
 
+    /*
+    удалить пользователя по ID
+    */
 
+    @Override
+    public void delete(Long id) {
 
+    }
 
     private Long validatePhone(String a) {
         Long aLong;
         try {
             aLong = Long.parseLong(a);
-        } catch (OrganisationValidationException e) {
+        } catch (NumberFormatException e) {
             throw new OrganisationValidationException("Телефон должен состоять из цифр");
         }
         return aLong;
@@ -296,7 +289,7 @@ public class UserServiceImpl implements UserService {
         Long aLong;
         try {
             aLong = Long.parseLong(a);
-        } catch (OrganisationValidationException e) {
+        } catch (NumberFormatException e) {
             throw new OrganisationValidationException("Номер докумнета должен состоять из цифр");
         }
         return aLong;

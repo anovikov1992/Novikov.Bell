@@ -66,7 +66,7 @@ public class OfficeDaoImpl implements OfficeDao {
     получить офис по ID
     */
     @Override
-    public Office loadById(Long id) {
+    public Office findById(Long id) {
         Query query = em.createQuery("SELECT o FROM Office o WHERE o.id = :id");
         query.setParameter("id", id);
         Office result1 = (Office)query.getSingleResult();
@@ -90,10 +90,17 @@ public class OfficeDaoImpl implements OfficeDao {
         TypedQuery<Office> query = em.createQuery("SELECT p FROM Office p", Office.class);
         return query.getResultList();
     }
-    
-    
+
+    @Override
+    public void delete(Long id) {
+        Query query = em.createQuery("SELECT o FROM Office o WHERE o.id = :id");
+        query.setParameter("id", id);
+        Office officeRemove = (Office)query.getSingleResult();
+        em.remove(officeRemove);
+    }
+
     /*
-    обнуляем связь офиса с организацией перед удалением
+    обнуляем связь офиса с организацией перед удалением организации
     */
     @Override
     public void setOrganizationRelationshipNull(Long id) {
@@ -102,8 +109,8 @@ public class OfficeDaoImpl implements OfficeDao {
             Query query = em.createQuery("SELECT o FROM Office o WHERE o.organization = :organization");
             query.setParameter("organization", org);
             Office officeOrgToNull = (Office)query.getSingleResult();
+            System.out.println("нашли организации - " + officeOrgToNull);
             officeOrgToNull.setOrganization(null);
-
         } catch (Exception e) {
             System.out.println("на организацию ссылок нет, удаление успешно");
         }

@@ -169,6 +169,7 @@ public class UserDaoImpl implements UserDao {
     @Override                                                                       //получить весь список организаций
     public List<User> getAllUser() {
         TypedQuery<User> query = em.createQuery("SELECT p FROM User p", User.class);
+        System.out.println("8888888888888888888888888888888888888888888888f");
         return query.getResultList();
     }
 
@@ -176,5 +177,18 @@ public class UserDaoImpl implements UserDao {
     @Override                                                                       //добавление организаций
     public void save(User user) {
         em.persist(user);
+    }
+
+    @Override
+    public void setOfficeRelationshipNull(Long id) {
+        Office office = em.find(Office.class, id);
+        try {
+            Query query = em.createQuery("SELECT o FROM User o WHERE o.office = :office");
+            query.setParameter("office", office);
+            User userOrgToNull = (User)query.getSingleResult();
+            userOrgToNull.setOffice(null);
+        } catch (Exception e) {
+            System.out.println("на организацию ссылок нет, удаление успешно");
+        }
     }
 }

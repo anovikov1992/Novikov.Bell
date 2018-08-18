@@ -16,22 +16,17 @@ public interface OfficeService {
     List<OfficeView> getOfficeByOrgId(OfficeViewRequest officeViewRequest) ;
 
     /*
-    получить офис по ID организации (с помощью @RequestParam)
-    *//*
-    List<OfficeView> getOfficeByOrgId(Long orgId, String name, String phoneOffice, Boolean isActive) throws Exception;*/
-
-    /*
-    получить организацию по ID
+    получить офис по ID
     */
-    OfficeViewLoadById loadById(Long id);
+    OfficeViewLoadById findById(Long id);
 
     /*
-    обновить данные организации
+    обновить данные офиса
     */
     void update(OfficeViewLoadById office);
 
     /*
-    добавить организацию
+    добавить офис
     */
     void add(OfficeViewSave office);
 
@@ -39,5 +34,10 @@ public interface OfficeService {
     получить весь список офисов
     */
     List<OfficeViewLoadById> getAllOffice();
+
+    /*
+    удалить офис по ID
+    */
+    void delete (Long id);
 }
 

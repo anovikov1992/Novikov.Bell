@@ -113,6 +113,5 @@ public class OrganizationDaoImpl implements OrganizationDao {
         query.setParameter("id", id);
         Organization orgRemove = (Organization)query.getSingleResult();
         em.remove(orgRemove);
-
     }
 }

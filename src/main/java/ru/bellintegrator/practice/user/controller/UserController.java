@@ -26,7 +26,6 @@ public class UserController {
     /*
     получить пользователя по ID офиса
     */
-
     @ApiOperation(value = "/api/office/list", nickname = "/api/office/list", httpMethod = "POST")
     @PostMapping("/api/user/list")
     public List<UserViewByOfficeIdResponse> getUserByOfficeId(@RequestBody UserViewByOfficeIdRequest userByOfficeId) {
@@ -70,6 +69,17 @@ public class UserController {
     */
     @ApiOperation(value = "getAllUser", nickname = "getAllUser", httpMethod = "GET")
     @GetMapping("/api/user/all")
-    public List<UserView> getAllUser() { return userService.getAllUser(); }
+    public List<UserView> getAllUser() {
+        System.out.println("000000000000000000000000000000000000000000000000");
+        return userService.getAllUser(); }
+
+    /*
+    удалить пользователя по ID
+    */
+    @ApiOperation(value = "deleteOffice", nickname = "deleteOffice", httpMethod = "POST")
+    @PostMapping("/api/user/delete/{id}")
+    public void delete(@PathVariable Long id) {
+        userService.delete(id);
+    }
 
 }

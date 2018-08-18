@@ -40,17 +40,17 @@ public class UserView {
     public String toString() {
         return "UserView{" +
                 "id=" + id +
-                ", version=" + version +
-                ", firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", secondName='" + secondName + '\'' +
-                ", position='" + position + '\'' +
-                ", phoneUser=" + phoneUser +
-                ", doc=" + doc +
-                ", docDate=" + docDate +
-                ", country=" + country +
-                ", isIdentified=" + isIdentified +
-               // ", office=" + office +
+//                ", version=" + version +
+//                ", firstName='" + firstName + '\'' +
+//                ", middleName='" + middleName + '\'' +
+//                ", secondName='" + secondName + '\'' +
+//                ", position='" + position + '\'' +
+//                ", phoneUser=" + phoneUser +
+//                ", doc=" + doc +
+//                ", docDate=" + docDate +
+//                ", country=" + country +
+//                ", isIdentified=" + isIdentified +
+//               // ", office=" + office +
                 '}';
     }
 }

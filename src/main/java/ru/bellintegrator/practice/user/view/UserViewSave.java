@@ -32,6 +32,8 @@ public class UserViewSave {
 
     public Boolean isIdentified;
 
+    public Long officeId;
+
 
     @Override
     public String toString() {

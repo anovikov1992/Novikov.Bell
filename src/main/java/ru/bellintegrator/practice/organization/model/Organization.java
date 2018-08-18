@@ -49,6 +49,16 @@ public class Organization {
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Office> offices;
 
+    public void addOffice(Office office) {
+        getOffices().add(office);
+        office.setOrganization(this);
+    }
+
+    public void removeOffice(Office office) {
+        getOffices().remove(office);
+        office.setOrganization(null);
+    }
+
 
     /**
      * Конструктор для hibernate
