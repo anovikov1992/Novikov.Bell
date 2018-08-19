@@ -1,10 +1,7 @@
 package ru.bellintegrator.practice.country.model;
 
 
-import ru.bellintegrator.practice.user.model.User;
-
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "Country")

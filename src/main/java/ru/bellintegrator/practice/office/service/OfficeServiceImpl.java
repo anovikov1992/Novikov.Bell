@@ -13,7 +13,6 @@ import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.organization.model.Organization;
 import ru.bellintegrator.practice.organization.my.exception.OrgOutException;
 import ru.bellintegrator.practice.organization.my.exception.OrganisationValidationException;
-import ru.bellintegrator.practice.user.dao.UserDao;
 
 import java.util.List;
 import java.util.function.Function;
