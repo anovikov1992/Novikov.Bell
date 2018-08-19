@@ -2,10 +2,12 @@ package ru.bellintegrator.practice.organization.controller;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.organization.service.OrganizationService;
-import ru.bellintegrator.practice.organization.view.*;
+import ru.bellintegrator.practice.organization.view.OrganizationView;
+import ru.bellintegrator.practice.organization.view.OrganizationViewList;
+import ru.bellintegrator.practice.organization.view.OrganizationViewSave;
+import ru.bellintegrator.practice.organization.view.OrganizationViewUpdate;
 
 import java.util.List;
 
@@ -34,7 +36,6 @@ public class OrganizationController {
         OrganizationViewList organizationViewList = organizationService.getOrganizationByName(name, inn, isActive);
         return organizationViewList;
     }
-                //new ResponseView(organizationViewList); }
 
     /*
     получить организацию по ID
@@ -50,7 +51,6 @@ public class OrganizationController {
     */
     @ApiOperation(value = "update", nickname = "update", httpMethod = "POST")
     @PostMapping("/api/organization/update")
-    @ResponseStatus(value = HttpStatus.OK)
     public void update(@RequestBody OrganizationViewUpdate organization) {
             organizationService.update(organization);
     }
@@ -58,8 +58,7 @@ public class OrganizationController {
     /*
     добавить организацию
     */
-    @ApiOperation(value = "api/organization/save", nickname = "api/organization/save",
-            httpMethod = "POST")
+    @ApiOperation(value = "api/organization/save", nickname = "api/organization/save", httpMethod = "POST")
     @PostMapping("/api/organization/save")
     public void add( @RequestBody OrganizationViewSave organization){
         organizationService.add(organization);

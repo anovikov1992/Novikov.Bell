@@ -42,7 +42,6 @@ public class UserViewUpdate {
                 ", secondName='" + secondName + '\'' +
                 ", position='" + position + '\'' +
                 ", phoneUser='" + phoneUser + '\'' +
-             //   ", docName='" + docName + '\'' +
                 ", docNumber='" + docNumber + '\'' +
                 ", docDate=" + docDate +
                 ", citizenshipCode='" + citizenshipCode + '\'' +

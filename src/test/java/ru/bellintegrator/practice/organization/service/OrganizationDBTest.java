@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -20,7 +19,7 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
-@WebAppConfiguration(value = "src/main/test/resources")
+@WebAppConfiguration(value = "src/main/resources")
 @Transactional
 @DirtiesContext
 public class OrganizationDBTest {
@@ -55,13 +54,13 @@ public class OrganizationDBTest {
 
     @Test
     public void testUpdate() {
-        Organization organization = organizationDao.loadById(0L);
+
         String newName = "ООО Test2";
         organization.setName(newName);
         String newFullName = "Общество с ограниченной ответственностью Test2";
         organization.setFullName(newFullName);
 
-      //  organizationDao.save(organization);
+        organizationDao.save(organization);
 
         Organization updatedOrganization = organizationDao.loadById(organization.getId());
 
@@ -70,7 +69,7 @@ public class OrganizationDBTest {
     }
 
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test(expected = Exception.class)
     public void testDelete() {
 
         Long id = organization.getId();
@@ -81,7 +80,7 @@ public class OrganizationDBTest {
     }
 
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test(expected = Exception.class)
     public void findNonExistingOrg(){
         Organization nonExistedOrg = new Organization();
         nonExistedOrg.setName("ООО Test1");

@@ -64,6 +64,16 @@ public class Doc {
         this.docName = docName;
         this.docCode = docCode;
     }
+
+    @Override
+    public String toString() {
+        return "Doc{" +
+                "id=" + id +
+                ", version=" + version +
+                ", docName='" + docName + '\'' +
+                ", docCode=" + docCode +
+                '}';
+    }
 }
 
 

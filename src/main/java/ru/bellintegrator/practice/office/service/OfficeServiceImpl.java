@@ -20,17 +20,16 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class OfficeServiceImpl implements OfficeService {
 
     private final OfficeDao officeDao;
 
     private final OrganizationDao organizationDao;
 
-    private final UserDao userDao;
 
-    public OfficeServiceImpl(OfficeDao officeDao, UserDao userDao, OrganizationDao organizationDao) {
+    public OfficeServiceImpl(OfficeDao officeDao, OrganizationDao organizationDao) {
         this.officeDao = officeDao;
-        this.userDao = userDao;
         this.organizationDao = organizationDao;
     }
 
@@ -65,7 +64,7 @@ public class OfficeServiceImpl implements OfficeService {
             officeViewLoadById.phoneOffice = office.getPhoneOffice();
             officeViewLoadById.isActive = office.getIsActive();
             System.out.println(office.getUsers());
-        }catch (OrgOutException e){
+        }catch (EmptyResultDataAccessException e){
             throw new OrgOutException("Офиса с таким ID нет в базе данных");
         }
 
@@ -86,21 +85,16 @@ public class OfficeServiceImpl implements OfficeService {
         if ((office.name == null) || (office.address == null) || (office.isActive == null)) {
             throw new OrgOutException("Заполнены не все обязательные поля");
         }
-        System.out.println("0000000000000000000000000000000");
         office1.setName(office.name);
         office1.setAddress(office.address);
         office1.setIsActive(office.isActive);
-        System.out.println("1111111111111111111111111111111111111");
         if (office.phoneOffice == null) {
             office.phoneOffice = office1.getPhoneOffice();
             office1.setPhoneOffice(office.phoneOffice);
-            System.out.println("2222222222222222222222222222222222222");
         } else {
             validatePhone(office.phoneOffice);
             office1.setPhoneOffice(office.phoneOffice);
-            System.out.println("333333333333333333333333333333333333333");
         }
-        System.out.println("444444444444444444444444444444444444444444444444");
     }
 
     /*
@@ -150,11 +144,17 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional
     public void delete(Long id) {
-        Office office = officeDao.findById(id);
+        Office office;
+        try {
+            office = officeDao.findById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new OrganisationValidationException("Офиса с таким ID нет в БД");
+        }
         if (office.getOrganization() != null) {
             office.getOrganization().removeOffice(office);
-        }
+        } else {
             officeDao.delete(id);
+        }
     }
 
     private Long validatePhone(String a) {

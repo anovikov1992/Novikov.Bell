@@ -1,8 +1,6 @@
 package ru.bellintegrator.practice.user.dao;
 
 import ru.bellintegrator.practice.user.model.User;
-import ru.bellintegrator.practice.user.view.UserViewByOfficeIdRequest;
-import ru.bellintegrator.practice.user.view.UserViewByOfficeIdResponse;
 
 import java.util.List;
 
@@ -21,13 +19,15 @@ public interface UserDao {
     */
     User loadById(Long id);
 
-    User loadByName(String Name);       //получить организацию по имени
+    /*
+    получить весь список пользователей
+    */
+    List<User> getAllUser();
 
-
-    List<User> getAllUser();    //получить весь список организаций
-
-
-    void save(User user);       //добавить организацию в список
+    /*
+    добавить организацию в список
+    */
+    void save(User user);
 
     /*
     удалить пользователя по ID

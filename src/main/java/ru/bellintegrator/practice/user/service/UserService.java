@@ -1,6 +1,5 @@
 package ru.bellintegrator.practice.user.service;
 
-import ru.bellintegrator.practice.user.model.User;
 import ru.bellintegrator.practice.user.view.*;
 
 import java.util.List;
@@ -9,11 +8,6 @@ import java.util.List;
  * Сервис
  */
 public interface UserService {
-
-    /*
-    получить пользователя по ID офиса
-
-    List<UserViewByOfficeIdResponse> getUserByOfficeId(UserViewByOfficeIdRequest userByOfficeId);*/
 
     /*
     получить пользователя по ID офиса

@@ -6,10 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.country.dao.CountryDao;
 import ru.bellintegrator.practice.country.model.Country;
 import ru.bellintegrator.practice.country.view.CountryView;
-import ru.bellintegrator.practice.docs.dao.DocDao;
-import ru.bellintegrator.practice.docs.model.Doc;
-import ru.bellintegrator.practice.docs.service.DocService;
-import ru.bellintegrator.practice.docs.view.DocView;
 
 import java.util.List;
 import java.util.function.Function;

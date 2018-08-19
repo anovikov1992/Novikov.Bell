@@ -1,9 +1,6 @@
 package ru.bellintegrator.practice.office.view;
 
 
-import io.swagger.annotations.ApiModelProperty;
-import ru.bellintegrator.practice.organization.model.Organization;
-
 public class OfficeViewSave {
 
  //   @ApiModelProperty(required = true)

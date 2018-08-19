@@ -2,9 +2,7 @@ package ru.bellintegrator.practice.user.controller;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.bellintegrator.practice.advice.ResponseView;
 import ru.bellintegrator.practice.user.service.UserService;
 import ru.bellintegrator.practice.user.view.*;
 
@@ -47,10 +45,8 @@ public class UserController {
     */
     @ApiOperation(value = "update", nickname = "update", httpMethod = "POST")
     @PostMapping("/api/user/update")
-    @ResponseStatus(value = HttpStatus.OK)
-    public ResponseView update(@RequestBody UserViewUpdate userViewUpdate) {
+    public void update(@RequestBody UserViewUpdate userViewUpdate) {
         userService.update(userViewUpdate);
-        return new ResponseView("advice");
     }
 
     /*
@@ -59,9 +55,8 @@ public class UserController {
     @ApiOperation(value = "api/user/save", nickname = "api/user/save",
             httpMethod = "POST")
     @PostMapping("/api/user/save")
-    public ResponseView add( @RequestBody UserViewSave userViewSave) {
+    public void add( @RequestBody UserViewSave userViewSave) {
         userService.add(userViewSave);
-        return new ResponseView("advice");
     }
 
     /*

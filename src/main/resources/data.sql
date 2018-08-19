@@ -21,7 +21,6 @@ INSERT INTO Office (id, version, name, Address, is_Active, organization_id, phon
 
 INSERT INTO Office (id, version, name, Address, is_Active, organization_id) VALUES (5, 0, 'Office3', 'NN office', true, 0);
 
---INSERT INTO Office (id, version, name, Address, is_Active, organization_id) VALUES (3, 0, 'Office3', 'NN office', true, 0);
 
 
 INSERT INTO Doc (id, version, doc_name, doc_code) VALUES (0, 0, 'Свидетельство о рождении', 03);

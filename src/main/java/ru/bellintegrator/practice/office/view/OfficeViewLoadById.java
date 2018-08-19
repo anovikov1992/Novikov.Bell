@@ -2,10 +2,6 @@ package ru.bellintegrator.practice.office.view;
 
 
 import io.swagger.annotations.ApiModelProperty;
-import ru.bellintegrator.practice.organization.model.Organization;
-
-import javax.persistence.Column;
-import javax.persistence.Version;
 
 public class OfficeViewLoadById {
 

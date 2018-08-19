@@ -20,7 +20,6 @@ public class UserViewSave {
 
     public String phoneUser;
 
-    public String docCode; //берется из справочника по документам
 
     public String docName; //берется из справочника по документам
 
@@ -43,7 +42,6 @@ public class UserViewSave {
                 ", secondName='" + secondName + '\'' +
                 ", position='" + position + '\'' +
                 ", phoneUser='" + phoneUser + '\'' +
-                ", docCode='" + docCode + '\'' +
                 ", docName='" + docName + '\'' +
                 ", docNumber='" + docNumber + '\'' +
                 ", docDate=" + docDate +

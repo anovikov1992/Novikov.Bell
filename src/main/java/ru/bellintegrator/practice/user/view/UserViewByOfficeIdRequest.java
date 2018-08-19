@@ -1,9 +1,6 @@
 package ru.bellintegrator.practice.user.view;
 
 import io.swagger.annotations.ApiModelProperty;
-import ru.bellintegrator.practice.docs.model.Doc;
-
-import java.sql.Date;
 
 
 public class UserViewByOfficeIdRequest {

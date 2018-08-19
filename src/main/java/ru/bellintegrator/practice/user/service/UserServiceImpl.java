@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /*
-    получить пользователя по ID офиса
+    получить список пользователей по ID офиса
     */
     @Override
     public List<UserViewByOfficeIdResponse> getUserByOfficeId(Long officeId, String firstName, String middleName,
@@ -50,6 +50,9 @@ public class UserServiceImpl implements UserService {
                                                               String country) {
         List<User> userList;
         try {
+            if (docCode != null) {
+                validateDocCode(docCode);
+            }
             userList = userDao.getUserByOfficeId(officeId, firstName, middleName,
                                                 secondName, position, docCode, country);
         } catch (OrgOutException e) {
@@ -71,8 +74,12 @@ public class UserServiceImpl implements UserService {
             userViewLoadById.middleName = user.getMiddleName();
             userViewLoadById.secondName = user.getSecondName();
             userViewLoadById.position = user.getPosition();
+            if (user.getPhoneUser() != null) {
             userViewLoadById.phoneUser = user.getPhoneUser().toString();
-            userViewLoadById.docNumber = user.getDocNumber().toString();
+            }
+            if (user.getDocNumber() != null) {
+                userViewLoadById.docNumber = user.getDocNumber().toString();
+            }
             if (user.getDoc() != null){
                 userViewLoadById.docName = user.getDoc().getDocName();
             } else {
@@ -87,7 +94,7 @@ public class UserServiceImpl implements UserService {
                 userViewLoadById.citizenshipCode = null;
             }
             userViewLoadById.isIdentified = user.getIdentified();
-        }catch (OrgOutException e){
+        }catch (EmptyResultDataAccessException e){
             throw new OrgOutException("Пользователя с таким ID нет в базе данных");
         }
         return userViewLoadById;
@@ -175,9 +182,11 @@ public class UserServiceImpl implements UserService {
         if (userViewSave.firstName == null) {
             throw new OrganisationValidationException("Поле firstName является обязательным");
         }
+        user.setFirstName(userViewSave.firstName);
         if (userViewSave.position == null) {
             throw new OrganisationValidationException("Поле position является обязательным");
         }
+        user.setPosition(userViewSave.position);
         if (userViewSave.docName != null) {
             // Находим документ в БД Doc по docName
             Doc doc;
@@ -190,7 +199,9 @@ public class UserServiceImpl implements UserService {
             // Присваим документ пользователю
             if (doc != null)
             {
+                System.out.println(doc);
                 user.setDoc(doc);
+                System.out.println(user.getDoc());
             }
         }
         if (userViewSave.citizenshipCode != null) {
@@ -301,5 +312,13 @@ public class UserServiceImpl implements UserService {
             throw new OrganisationValidationException("Номер докумнета должен состоять из цифр");
         }
         return aLong;
+    }
+
+    private void validateDocCode(String a) {
+        try {
+            Long aLong = Long.parseLong(a);
+        } catch (NumberFormatException e) {
+            throw new OrganisationValidationException("Код документа должен состоять из цифр");
+        }
     }
 }

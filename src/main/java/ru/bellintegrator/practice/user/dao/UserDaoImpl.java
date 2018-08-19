@@ -6,7 +6,6 @@ import ru.bellintegrator.practice.country.model.Country;
 import ru.bellintegrator.practice.docs.model.Doc;
 import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.user.model.User;
-import ru.bellintegrator.practice.user.view.UserViewByOfficeIdRequest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -27,55 +26,6 @@ public class UserDaoImpl implements UserDao {
     public UserDaoImpl(EntityManager em) {
         this.em = em;
     }
-
-    /*
-    получить пользователей по ID офиса
-
-    @Override
-    public List<User> getUserByOfficeId(UserViewByOfficeIdRequest userByOfficeId) {
-        return loadByCriteriaByOfficeId(userByOfficeId);
-    }
-
-    public List<User> loadByCriteriaByOfficeId(UserViewByOfficeIdRequest userByOfficeId) {
-        CriteriaQuery<User> criteria = buildCriteriaByOfficeId(userByOfficeId);
-        TypedQuery<User> query = em.createQuery(criteria);
-        return query.getResultList();
-    }
-
-    private CriteriaQuery<User> buildCriteriaByOfficeId(UserViewByOfficeIdRequest userByOfficeId) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<User> cq = builder.createQuery(User.class);
-        CriteriaBuilder qb = em.getCriteriaBuilder();
-
-        Root<Office> officeRoot = cq.from(Office.class);
-
-        List<Predicate> predicates = new ArrayList<>();
-        predicates.add(qb.equal(officeRoot.get("id"), userByOfficeId.officeId));
-
-        Join<Office, User> join = officeRoot.join("users");
-
-        if (userByOfficeId.firstName != null) {
-            predicates.add(qb.equal(join.get("firstName"), userByOfficeId.firstName));
-        }
-        if (userByOfficeId.secondName != null) {
-            predicates.add(qb.equal(join.get("secondName"), userByOfficeId.secondName));
-        }
-        if (userByOfficeId.middleName != null) {
-            predicates.add(qb.equal(join.get("middleName"), userByOfficeId.middleName));
-        }
-        if (userByOfficeId.position != null) {
-            predicates.add(qb.equal(join.get("position"), userByOfficeId.position));
-        }
-        if (userByOfficeId.docCode != null) {
-            predicates.add(qb.equal(join.get("docCode"), userByOfficeId.docCode));
-        }
-        if (userByOfficeId.citizenshipCode != null) {
-            predicates.add(qb.equal(join.get("citizenshipCode"), userByOfficeId.citizenshipCode));
-        }
-
-        cq.select(join).where(predicates.toArray(new Predicate[]{}));
-        return cq;
-    }*/
 
     /*
     получить пользователей по ID офиса
@@ -146,30 +96,12 @@ public class UserDaoImpl implements UserDao {
             return result1;
         }
 
-
-    @Override                                                                       //получить организацию по имени
-    public User loadByName(String name) {
-        CriteriaQuery<User> criteria = buildCriteria(name);
-        TypedQuery<User> query = em.createQuery(criteria);
-        return query.getSingleResult();
-    }
-    private CriteriaQuery<User> buildCriteria(String name) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<User> criteria = builder.createQuery(User.class);
-
-        Root<User> userRoot = criteria.from(User.class);
-        criteria.where(builder.equal(userRoot.get("Name"), name));
-        return criteria;
-    }
-
-
     /**
      * {@inheritDoc}
      */
     @Override                                                                       //получить весь список организаций
     public List<User> getAllUser() {
         TypedQuery<User> query = em.createQuery("SELECT p FROM User p", User.class);
-        System.out.println("8888888888888888888888888888888888888888888888f");
         return query.getResultList();
     }
 
@@ -179,18 +111,6 @@ public class UserDaoImpl implements UserDao {
         em.persist(user);
     }
 
-//    @Override
-//    public void setOfficeRelationshipNull(Long id) {
-//        Office office = em.find(Office.class, id);
-//        try {
-//            Query query = em.createQuery("SELECT o FROM User o WHERE o.office = :office");
-//            query.setParameter("office", office);
-//            User userOrgToNull = (User)query.getSingleResult();
-//            userOrgToNull.setOffice(null);
-//        } catch (Exception e) {
-//            System.out.println("на организацию ссылок нет, удаление успешно");
-//        }
-//    }
 
 
     @Override

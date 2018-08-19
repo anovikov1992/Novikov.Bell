@@ -2,8 +2,6 @@ package ru.bellintegrator.practice.country.dao;
 
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.country.model.Country;
-import ru.bellintegrator.practice.docs.dao.DocDao;
-import ru.bellintegrator.practice.docs.model.Doc;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

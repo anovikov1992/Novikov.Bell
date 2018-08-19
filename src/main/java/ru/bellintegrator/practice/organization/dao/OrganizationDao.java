@@ -1,7 +1,6 @@
 package ru.bellintegrator.practice.organization.dao;
 
 import ru.bellintegrator.practice.organization.model.Organization;
-import ru.bellintegrator.practice.organization.view.OrganizationViewLoadById;
 
 import java.util.List;
 

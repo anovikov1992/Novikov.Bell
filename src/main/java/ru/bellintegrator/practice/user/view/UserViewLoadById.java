@@ -1,10 +1,5 @@
 package ru.bellintegrator.practice.user.view;
 
-import io.swagger.annotations.ApiModelProperty;
-import ru.bellintegrator.practice.country.model.Country;
-import ru.bellintegrator.practice.docs.model.Doc;
-import ru.bellintegrator.practice.office.model.Office;
-
 import java.sql.Date;
 
 
@@ -41,16 +36,13 @@ public class UserViewLoadById {
         return "UserViewLoadById{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
-           /*     ", middleName='" + middleName + '\'' +
+                ", middleName='" + middleName + '\'' +
                 ", secondName='" + secondName + '\'' +
                 ", position='" + position + '\'' +
-                ", phoneUser=" + phoneUser +*/
-             //   ", doc=" + doc +
-            //    ", docDate=" + docDate +
-            //    ", country=" + country +
+                ", phoneUser=" + phoneUser +
+                ", docDate=" + docDate +
                 ", citizenshipCode='" + citizenshipCode + '\'' +
-             /*   ", isIdentified=" + isIdentified +
-                ", office=" + office +*/
+                ", isIdentified=" + isIdentified +
                 '}';
     }
 }

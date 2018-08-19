@@ -3,8 +3,6 @@ package ru.bellintegrator.practice.organization.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.organization.model.Organization;
-import ru.bellintegrator.practice.organization.view.OrganizationView;
-import ru.bellintegrator.practice.organization.view.OrganizationViewLoadById;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

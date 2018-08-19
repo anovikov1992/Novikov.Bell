@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bellintegrator.practice.country.service.CountryService;
 import ru.bellintegrator.practice.country.view.CountryView;
-import ru.bellintegrator.practice.docs.service.DocService;
-import ru.bellintegrator.practice.docs.view.DocView;
 
 import java.util.List;
 

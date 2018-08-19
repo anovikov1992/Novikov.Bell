@@ -1,14 +1,12 @@
 package ru.bellintegrator.practice.office.controller;
 
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.office.service.OfficeService;
-import ru.bellintegrator.practice.office.view.OfficeViewLoadById;
 import ru.bellintegrator.practice.office.view.OfficeView;
+import ru.bellintegrator.practice.office.view.OfficeViewLoadById;
 import ru.bellintegrator.practice.office.view.OfficeViewRequest;
 import ru.bellintegrator.practice.office.view.OfficeViewSave;
-import ru.bellintegrator.practice.advice.ResponseView;
 
 import java.util.List;
 

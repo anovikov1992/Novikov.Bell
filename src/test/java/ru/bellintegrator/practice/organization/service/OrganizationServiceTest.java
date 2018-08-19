@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.bellintegrator.practice.organization.my.exception.OrgOutException;
@@ -28,6 +29,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
+@ImportResource("spring_mvc_config.xml")
+
 public class OrganizationServiceTest {
 
     private Organization organization;
@@ -93,7 +96,7 @@ public class OrganizationServiceTest {
     @Test(expected = OrganisationValidationException.class)
     public void verifyExceptionWhenOrganizationIsNotExists() {
         when(organizationDao.loadById(100L)).thenThrow(OrganisationValidationException.class);
-        organizationService.loadById(1L);
+        organizationService.loadById(100L);
     }
 
 

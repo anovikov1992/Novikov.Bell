@@ -10,9 +10,11 @@ import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.organization.model.Organization;
 import ru.bellintegrator.practice.organization.my.exception.OrgOutException;
 import ru.bellintegrator.practice.organization.my.exception.OrganisationValidationException;
-import ru.bellintegrator.practice.organization.view.*;
+import ru.bellintegrator.practice.organization.view.OrganizationView;
+import ru.bellintegrator.practice.organization.view.OrganizationViewList;
+import ru.bellintegrator.practice.organization.view.OrganizationViewSave;
+import ru.bellintegrator.practice.organization.view.OrganizationViewUpdate;
 
-import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -28,15 +30,12 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
 
     private  OrganizationDao organizationDao;
 
-    private  OfficeDao officeDao;
-
     public OrganizationServiceImpl() {
     }
 
     @Autowired
-    public OrganizationServiceImpl(OrganizationDao organizationDao, OfficeDao officeDao) {
+    public OrganizationServiceImpl(OrganizationDao organizationDao) {
         this.organizationDao = organizationDao;
-        this.officeDao = officeDao;
     }
 
     /*
@@ -205,30 +204,28 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
 
     @Override
     public void delete(Long id) {
-        organizationDao.delete(id);
+        try {
+            organizationDao.delete(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new OrganisationValidationException("Организации с таким ID нет в БД");
+        }
     }
-
-
-
-
 
     private Long validate(String a) {
         Long aLong;
         try {
             aLong = Long.parseLong(a);
-        } catch (OrganisationValidationException e) {
+        } catch (NumberFormatException e) {
             throw new OrganisationValidationException("ИНН должен состоять из 10 цифр");
         }
-        if (aLong != null) {
-            int count = 1;
-            Long b = aLong / 10;
-            while (b >= 1){
-                count++;
-                b /= 10;
-            }
-            if (count != 10) {
-                throw new OrganisationValidationException("ИНН должен состоять из 10 цифр");
-            }
+        int count = 1;
+        Long b = aLong / 10;
+        while (b >= 1){
+            count++;
+            b /= 10;
+        }
+        if (count != 10) {
+            throw new OrganisationValidationException("ИНН должен состоять из 10 цифр");
         }
         return aLong;
     }
@@ -237,7 +234,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
         Long aLong = null;
         try {
             aLong = Long.parseLong(a);
-        } catch (OrganisationValidationException e) {
+        } catch (NumberFormatException e) {
             throw new OrganisationValidationException("КПП должен состоять из 9 цифр");
         }
         int count = 1;
@@ -256,7 +253,7 @@ public class OrganizationServiceImpl  extends ResponseEntityExceptionHandler imp
         try {
             Long a = Long.parseLong(phone);
             return a;
-        } catch (OrganisationValidationException e) {
+        } catch (NumberFormatException e) {
             throw new OrganisationValidationException("Телефон должен состоять из цифр");
         }
     }
