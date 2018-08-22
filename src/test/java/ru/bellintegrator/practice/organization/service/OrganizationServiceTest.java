@@ -5,16 +5,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.test.context.junit4.SpringRunner;
-import ru.bellintegrator.practice.organization.my.exception.OrgOutException;
-import ru.bellintegrator.practice.organization.my.exception.OrganisationValidationException;
+import org.mockito.runners.MockitoJUnitRunner;
 import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.organization.model.Organization;
+import ru.bellintegrator.practice.organization.my.exception.OrganisationValidationException;
 import ru.bellintegrator.practice.organization.view.OrganizationView;
 import ru.bellintegrator.practice.organization.view.OrganizationViewList;
 import ru.bellintegrator.practice.organization.view.OrganizationViewSave;
@@ -24,35 +18,18 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
-@ImportResource("spring_mvc_config.xml")
 
+
+@RunWith(MockitoJUnitRunner.class)
 public class OrganizationServiceTest {
-
     private Organization organization;
 
-
-    @TestConfiguration
-    static class OrganizationServiceImplTestContextConfiguration {
-
-        @Bean
-        public OrganizationService organizationService(){
-            return new OrganizationServiceImpl();
-        }
-
-    }
-
-    @Autowired
     @InjectMocks
-    private OrganizationService organizationService;
-
+    private OrganizationService organizationService = new OrganizationServiceImpl();
     @Mock
     private OrganizationDao organizationDao;
-
 
     @Before
     public void setup() {

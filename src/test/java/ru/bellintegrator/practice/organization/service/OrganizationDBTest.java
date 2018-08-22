@@ -4,13 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bellintegrator.practice.Application;
-import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.organization.model.Organization;
 
@@ -18,10 +17,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {Application.class})
-@WebAppConfiguration(value = "src/main/resources")
+@SpringBootTest
+@WebAppConfiguration(value = "src/test/resources")
 @Transactional
 @DirtiesContext
+@AutoConfigureTestDatabase
+
+//@TestPropertySource("classpath:application-test.properties")
 public class OrganizationDBTest {
 
     @Autowired
