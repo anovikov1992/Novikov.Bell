@@ -1,6 +1,5 @@
 package ru.bellintegrator.practice.organization.service;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import ru.bellintegrator.practice.TestConfig;
 import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.organization.model.Organization;
 

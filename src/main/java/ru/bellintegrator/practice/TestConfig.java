@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice.organization.service;
+package ru.bellintegrator.practice;
 
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
